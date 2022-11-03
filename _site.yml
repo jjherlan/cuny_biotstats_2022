@@ -7,3 +7,5 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
+    - text: "Lesson 6"
+      href: ex6_continuous_tests_for_two_populations.tml

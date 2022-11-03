@@ -1,0 +1,69 @@
+---
+title: "6. Continuous tests 2 populations"
+author: "jjh"
+date: "Last compiled on `r format(Sys.time(), '%d %B, %Y %H:%M')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    keep_md: true
+    self_contained: true
+    toc_depth: 6
+---
+
+```{r}
+library(reshape)
+library(reshape2)
+library(coin)
+library(tidyverse)
+packageVersion("dplyr")
+require(Rmisc)
+require(BSDA)
+require(simpleboot)
+```
+
+```{r}
+chol <- read.csv('cholestg.csv')
+chol
+```
+
+```{r}
+chol_tibble <-
+  as_tibble(chol) %>%
+  mutate_at(c('group', 'day'), as.factor) %>%
+  mutate_at(c('patient'), as.character)
+chol_tibble
+```
+
+```{r}
+chol_wide <-
+  chol_tibble %>%
+  pivot_wider(names_from = "day", values_from = "cholest") %>%
+  dplyr::rename("day2" = "2", "day4" = "4") %>%
+  select(-'14', -"NA") %>%
+  na.omit()
+chol_wide
+```
+
+```{r}
+chol_long <-
+  chol_wide %>%
+  select(-'patient') %>%
+  pivot_longer(!group, names_to = "day", values_to = "chol")
+chol_long
+```
+
+```{r}
+ggplot(chol_long, aes(x = day, y = chol)) +
+  geom_point(color = "purple", size = 2) +
+  ggtitle("Days and Cholesterol") +
+  theme(axis.title.x = element_text(face="bold", size = 12), 
+        axis.title.y = element_text(face="bold", size = 12), 
+        axis.text.y  = element_text(size = 10),
+        axis.text.x  = element_text(size = 10), 
+        legend.text =element_text(size = 10),
+        legend.title = element_text(size = 10, face = "bold"),
+        plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+```
+
+

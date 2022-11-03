@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="jjh" />
+
+
+<title>6. Continuous tests 2 populations</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="ex6_continuous_tests_for_two_populations.tml">Lesson 6</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">6. Continuous tests 2 populations</h1>
+<h4 class="author">jjh</h4>
+<h4 class="date">Last compiled on 03 November, 2022 13:32</h4>
+
+</div>
+
+
+<pre class="r"><code>library(reshape)
+library(reshape2)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;reshape2&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:reshape&#39;:
+## 
+##     colsplit, melt, recast</code></pre>
+<pre class="r"><code>library(coin)</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages
+## ───────────────────────────────────────
+## tidyverse 1.3.2 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.3.6      ✔ purrr   0.3.5 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ tidyr::expand() masks reshape::expand()
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ✖ dplyr::rename() masks reshape::rename()</code></pre>
+<pre class="r"><code>packageVersion(&quot;dplyr&quot;)</code></pre>
+<pre><code>## [1] &#39;1.0.10&#39;</code></pre>
+<pre class="r"><code>require(Rmisc)</code></pre>
+<pre><code>## Loading required package: Rmisc
+## Loading required package: lattice
+## Loading required package: plyr
+## ------------------------------------------------------------------------------
+## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)
+## ------------------------------------------------------------------------------
+## 
+## Attaching package: &#39;plyr&#39;
+## 
+## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     compact
+## 
+## The following objects are masked from &#39;package:reshape&#39;:
+## 
+##     rename, round_any</code></pre>
+<pre class="r"><code>require(BSDA)</code></pre>
+<pre><code>## Loading required package: BSDA
+## 
+## Attaching package: &#39;BSDA&#39;
+## 
+## The following object is masked from &#39;package:datasets&#39;:
+## 
+##     Orange</code></pre>
+<pre class="r"><code>require(simpleboot)</code></pre>
+<pre><code>## Loading required package: simpleboot
+## Simple Bootstrap Routines (1.1-7)</code></pre>
+<pre class="r"><code>chol &lt;- read.csv(&#39;cholestg.csv&#39;)
+chol</code></pre>
+<pre><code>##     patient group day cholest
+## 1         1     1   2     270
+## 2         2     1   2     236
+## 3         3     1   2     210
+## 4         4     1   2     142
+## 5         5     1   2     280
+## 6         6     1   2     272
+## 7         7     1   2     160
+## 8         8     1   2     220
+## 9         9     1   2     226
+## 10       10     1   2     242
+## 11       11     1   2     186
+## 12       12     1   2     266
+## 13       13     1   2     206
+## 14       14     1   2     318
+## 15       15     1   2     294
+## 16       16     1   2     282
+## 17       17     1   2     234
+## 18       18     1   2     224
+## 19       19     1   2     276
+## 20       20     1   2     282
+## 21       21     1   2     360
+## 22       22     1   2     310
+## 23       23     1   2     280
+## 24       24     1   2     278
+## 25       25     1   2     288
+## 26       26     1   2     288
+## 27       27     1   2     244
+## 28       28     1   2     236
+## 29        1     1   4     218
+## 30        2     1   4     234
+## 31        3     1   4     214
+## 32        4     1   4     116
+## 33        5     1   4     200
+## 34        6     1   4     276
+## 35        7     1   4     146
+## 36        8     1   4     182
+## 37        9     1   4     238
+## 38       10     1   4     288
+## 39       11     1   4     190
+## 40       12     1   4     236
+## 41       13     1   4     244
+## 42       14     1   4     258
+## 43       15     1   4     240
+## 44       16     1   4     294
+## 45       17     1   4     220
+## 46       18     1   4     200
+## 47       19     1   4     220
+## 48       20     1   4     186
+## 49       21     1   4     352
+## 50       22     1   4     202
+## 51       23     1   4     218
+## 52       24     1   4     248
+## 53       25     1   4     278
+## 54       26     1   4     248
+## 55       27     1   4     270
+## 56       28     1   4     242
+## 57        1     1  14     156
+## 58        2     1  14      NA
+## 59        3     1  14     242
+## 60        4     1  14      NA
+## 61        5     1  14      NA
+## 62        6     1  14     256
+## 63        7     1  14     142
+## 64        8     1  14     216
+## 65        9     1  14     248
+## 66       10     1  14      NA
+## 67       11     1  14     168
+## 68       12     1  14     236
+## 69       13     1  14      NA
+## 70       14     1  14     200
+## 71       15     1  14     264
+## 72       16     1  14      NA
+## 73       17     1  14     264
+## 74       18     1  14      NA
+## 75       19     1  14     188
+## 76       20     1  14     182
+## 77       21     1  14     294
+## 78       22     1  14     214
+## 79       23     1  14      NA
+## 80       24     1  14     198
+## 81       25     1  14      NA
+## 82       26     1  14     256
+## 83       27     1  14     280
+## 84       28     1  14     204
+## 85       29     2  NA     196
+## 86       30     2  NA     232
+## 87       31     2  NA     200
+## 88       32     2  NA     242
+## 89       33     2  NA     206
+## 90       34     2  NA     178
+## 91       35     2  NA     184
+## 92       36     2  NA     198
+## 93       37     2  NA     160
+## 94       38     2  NA     182
+## 95       39     2  NA     182
+## 96       40     2  NA     198
+## 97       41     2  NA     182
+## 98       42     2  NA     238
+## 99       43     2  NA     198
+## 100      44     2  NA     188
+## 101      45     2  NA     166
+## 102      46     2  NA     204
+## 103      47     2  NA     182
+## 104      48     2  NA     178
+## 105      49     2  NA     212
+## 106      50     2  NA     164
+## 107      51     2  NA     230
+## 108      52     2  NA     186
+## 109      53     2  NA     162
+## 110      54     2  NA     182
+## 111      55     2  NA     218
+## 112      56     2  NA     170
+## 113      57     2  NA     200
+## 114      58     2  NA     176</code></pre>
+<pre class="r"><code>chol_tibble &lt;-
+  as_tibble(chol) %&gt;%
+  mutate_at(c(&#39;group&#39;, &#39;day&#39;), as.factor) %&gt;%
+  mutate_at(c(&#39;patient&#39;), as.character)
+chol_tibble</code></pre>
+<pre><code>## # A tibble: 114 × 4
+##    patient group day   cholest
+##    &lt;chr&gt;   &lt;fct&gt; &lt;fct&gt;   &lt;int&gt;
+##  1 1       1     2         270
+##  2 2       1     2         236
+##  3 3       1     2         210
+##  4 4       1     2         142
+##  5 5       1     2         280
+##  6 6       1     2         272
+##  7 7       1     2         160
+##  8 8       1     2         220
+##  9 9       1     2         226
+## 10 10      1     2         242
+## # … with 104 more rows</code></pre>
+<pre class="r"><code>chol_wide &lt;-
+  chol_tibble %&gt;%
+  pivot_wider(names_from = &quot;day&quot;, values_from = &quot;cholest&quot;) %&gt;%
+  dplyr::rename(&quot;day2&quot; = &quot;2&quot;, &quot;day4&quot; = &quot;4&quot;) %&gt;%
+  select(-&#39;14&#39;, -&quot;NA&quot;) %&gt;%
+  na.omit()
+chol_wide</code></pre>
+<pre><code>## # A tibble: 28 × 4
+##    patient group  day2  day4
+##    &lt;chr&gt;   &lt;fct&gt; &lt;int&gt; &lt;int&gt;
+##  1 1       1       270   218
+##  2 2       1       236   234
+##  3 3       1       210   214
+##  4 4       1       142   116
+##  5 5       1       280   200
+##  6 6       1       272   276
+##  7 7       1       160   146
+##  8 8       1       220   182
+##  9 9       1       226   238
+## 10 10      1       242   288
+## # … with 18 more rows</code></pre>
+<pre class="r"><code>chol_long &lt;-
+  chol_wide %&gt;%
+  select(-&#39;patient&#39;) %&gt;%
+  pivot_longer(!group, names_to = &quot;day&quot;, values_to = &quot;chol&quot;)
+chol_long</code></pre>
+<pre><code>## # A tibble: 56 × 3
+##    group day    chol
+##    &lt;fct&gt; &lt;chr&gt; &lt;int&gt;
+##  1 1     day2    270
+##  2 1     day4    218
+##  3 1     day2    236
+##  4 1     day4    234
+##  5 1     day2    210
+##  6 1     day4    214
+##  7 1     day2    142
+##  8 1     day4    116
+##  9 1     day2    280
+## 10 1     day4    200
+## # … with 46 more rows</code></pre>
+<pre class="r"><code>ggplot(chol_long, aes(x = day, y = chol)) +
+  geom_point(color = &quot;purple&quot;, size = 2) +
+  ggtitle(&quot;Days and Cholesterol&quot;) +
+  theme(axis.title.x = element_text(face=&quot;bold&quot;, size = 12), 
+        axis.title.y = element_text(face=&quot;bold&quot;, size = 12), 
+        axis.text.y  = element_text(size = 10),
+        axis.text.x  = element_text(size = 10), 
+        legend.text =element_text(size = 10),
+        legend.title = element_text(size = 10, face = &quot;bold&quot;),
+        plot.title = element_text(hjust = 0.5, face = &quot;bold&quot;, size = 14))</code></pre>
+<p><img
+src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4,h5,h6",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
