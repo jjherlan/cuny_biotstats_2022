@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 04 November, 2022 11:16"
+date: "Last compiled on 04 November, 2022 11:18"
 output:
   html_document:
     toc: true
@@ -42,8 +42,8 @@ library(tidyverse)
 
 ```
 ## ── Attaching packages
-## ───────────────────────────────────────
-## tidyverse 1.3.2 ──
+## ────────────────────────────── tidyverse 1.3.2
+## ──
 ```
 
 ```
@@ -51,7 +51,7 @@ library(tidyverse)
 ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
 ## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
 ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ───────────────────────────────── tidyverse_conflicts() ──
 ## ✖ tidyr::expand() masks reshape::expand()
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
@@ -259,7 +259,7 @@ bootstrapjsg(drug.df$drugB, drug.df$DrugG)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"      "8.31666666666667" 
+##                  "0.95" "% Confidence Interval"      "8.33333333333333" 
 ##                                                                         
 ##      "9.16666666666667"               "p-value"                     "0"
 ```
@@ -387,9 +387,9 @@ bootstrapjsg(fertilizer_wide$new, fertilizer_wide$old)
 ##                                                                       
 ##                             "0.95" "% Percentile Confidence Interval" 
 ##                                                                       
-##                           "1.8525"                 "7.45500000000001" 
+##                 "1.73268780625459"                           "7.4975" 
 ##                                                                       
-##                          "p-value"                            "9e-04"
+##                          "p-value"                           "0.0013"
 ```
 
 
@@ -498,9 +498,9 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
+##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
 ##                                                                         
-##     "-5.44444444444444"               "p-value"                 "1e-04"
+##     "-5.33333333333333"               "p-value"                     "0"
 ```
 
 #### 4
