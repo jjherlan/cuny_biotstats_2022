@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 04 November, 2022 11:37"
+date: "Last compiled on 04 November, 2022 11:46"
 output:
   html_document:
     toc: true
@@ -261,7 +261,7 @@ bootstrapjsg(drug.df$drugB, drug.df$DrugG)
 ##                                                                         
 ##                  "0.95" "% Confidence Interval"      "8.33333333333333" 
 ##                                                                         
-##      "9.16666666666667"               "p-value"                     "0"
+##      "9.18333333333333"               "p-value"                     "0"
 ```
 
 
@@ -387,7 +387,7 @@ bootstrapjsg(fertilizer_wide$new, fertilizer_wide$old)
 ##                                                                       
 ##                             "0.95" "% Percentile Confidence Interval" 
 ##                                                                       
-##                           "1.7975"                 "7.47737479583027" 
+##                 "1.76762520416972"                             "7.51" 
 ##                                                                       
 ##                          "p-value"                            "9e-04"
 ```
@@ -498,9 +498,9 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
+##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
 ##                                                                         
-##     "-5.33333333333333"               "p-value"                 "1e-04"
+##     "-5.33333333333333"               "p-value"                     "0"
 ```
 
 #### 4
@@ -599,9 +599,9 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
+##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
 ##                                                                         
-##     "-5.44444444444444"               "p-value"                     "0"
+##     "-5.44444444444444"               "p-value"                 "2e-04"
 ```
 
 

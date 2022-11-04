@@ -346,7 +346,7 @@ div.tocify {
 <h1 class="title toc-ignore">3. Introduction to hypothesis testing via
 binomial tests</h1>
 <h4 class="author">jjh</h4>
-<h4 class="date">Last compiled on 04 November, 2022 11:45</h4>
+<h4 class="date">Last compiled on 04 November, 2022 11:46</h4>
 
 </div>
 
@@ -565,7 +565,7 @@ ggplot(sampling_experiment_df, aes(Right_Handed)) +
   guides(fill = F)</code></pre>
 <pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
 ## &quot;none&quot;)` instead.</code></pre>
-<pre><code>## Warning: Removed 4 rows containing non-finite values (stat_count).</code></pre>
+<pre><code>## Warning: Removed 5 rows containing non-finite values (stat_count).</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_bar).</code></pre>
 <p><img
 src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-10-1.png" /><!-- --></p>
@@ -623,7 +623,7 @@ src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/
 #using our sample
 length(sampling_experiment[sampling_experiment &gt;= 14 | sampling_experiment &lt;= 4])/
   length(sampling_experiment)</code></pre>
-<pre><code>## [1] 0.3497</code></pre>
+<pre><code>## [1] 0.3512</code></pre>
 <pre class="r"><code>#binomial test####
 binom.test(x = 19, n = 25, p = 0.5)</code></pre>
 <pre><code>## 
