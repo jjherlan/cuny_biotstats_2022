@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 03 November, 2022 16:08"
+date: "Last compiled on 04 November, 2022 11:16"
 output:
   html_document:
     toc: true
@@ -259,7 +259,7 @@ bootstrapjsg(drug.df$drugB, drug.df$DrugG)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"      "8.33333333333333" 
+##                  "0.95" "% Confidence Interval"      "8.31666666666667" 
 ##                                                                         
 ##      "9.16666666666667"               "p-value"                     "0"
 ```
@@ -387,9 +387,9 @@ bootstrapjsg(fertilizer_wide$new, fertilizer_wide$old)
 ##                                                                       
 ##                             "0.95" "% Percentile Confidence Interval" 
 ##                                                                       
-##                 "1.75506260208486"                 "7.49493739791514" 
+##                           "1.8525"                 "7.45500000000001" 
 ##                                                                       
-##                          "p-value"                           "0.0012"
+##                          "p-value"                            "9e-04"
 ```
 
 
@@ -498,9 +498,9 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
+##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
 ##                                                                         
-##     "-5.44444444444444"               "p-value"                     "0"
+##     "-5.44444444444444"               "p-value"                 "1e-04"
 ```
 
 #### 4
@@ -599,7 +599,7 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
+##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
 ##                                                                         
 ##     "-5.44444444444444"               "p-value"                     "0"
 ```
