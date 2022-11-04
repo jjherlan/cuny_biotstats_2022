@@ -8,6 +8,6 @@ navbar:
     - text: "About"
       href: about.html
     - text: "Lesson 3"
-      href: ex3_introduction_to_hypothesis_testing_via_binomial_tests.html
+      href: ex3_introduction_to_hypothesis_testing_via_binomial_test.html
     - text: "Lesson 6"
       href: ex6_continuous_tests_for_two_populations.html
