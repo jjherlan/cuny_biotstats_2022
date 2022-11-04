@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="jjh" />
+
+
+<title>3. Introduction to hypothesis testing via binomial tests</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="ex3_introduction_to_hypothesis_testing_via_binomial_tests.html">Lesson 3</a>
+</li>
+<li>
+  <a href="ex6_continuous_tests_for_two_populations.html">Lesson 6</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">3. Introduction to hypothesis testing via
+binomial tests</h1>
+<h4 class="author">jjh</h4>
+<h4 class="date">Last compiled on 04 November, 2022 11:35</h4>
+
+</div>
+
+
+<pre class="r"><code>require(binom)</code></pre>
+<pre><code>## Loading required package: binom</code></pre>
+<pre class="r"><code>require(ggplot2)</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<p>Before doing this, review the <strong>Introduction To Hypothesis
+Testing Via Binomial Tests</strong> lecture set slides from <a
+href="https://sites.google.com/view/biostats/lessons/hypothesis-testing-with-the-binomial-distribution"
+class="uri">https://sites.google.com/view/biostats/lessons/hypothesis-testing-with-the-binomial-distribution</a>
+and the <strong>3_hypothesis_testing_and_binomial.R</strong> script in
+the lecture_files folder of the <a
+href="https://github.com/jsgosnell/CUNY-BioStats">CUNY-BioStats github
+repository</a>.<br />
+<strong>You should also complete the swirl tutorial</strong>!</p>
+<p>Remember you should</p>
+<ul>
+<li>add code chunks by clicking the <em>Insert Chunk</em> button on the
+toolbar or by pressing <em>Ctrl+Alt+I</em> to answer the questions!</li>
+<li><strong>knit</strong> your file to produce a markdown version that
+you can see!</li>
+<li>save your work often
+<ul>
+<li><strong>commit</strong> it via git!</li>
+<li><strong>push</strong> updates to github</li>
+</ul></li>
+</ul>
+<div id="hypothesis-testing-and-the-binomial-distribution"
+class="section level2">
+<h2>Hypothesis Testing and the Binomial Distribution</h2>
+<div id="example" class="section level3">
+<h3>Example</h3>
+<p>Using the bat paper from class (Geipel et al. 2021), let’s consider
+how to analyze data showing all 10 bats chose the walking over the
+motionless model.</p>
+<pre class="r"><code>binom.test(10,10)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  10 and 10
+## number of successes = 10, number of trials = 10, p-value = 0.001953
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.6915029 1.0000000
+## sample estimates:
+## probability of success 
+##                      1</code></pre>
+<p>We use the binom.test function. We only need arguments for # of
+succeses and # of trials. By default it runs a 2-sided test against a
+null hypothesis value of p = .5. You can see how to update thee options
+by looking at the help file.</p>
+<pre class="r"><code>?binom.test</code></pre>
+<pre><code>## starting httpd help server ... done</code></pre>
+<p>Note the confidence interval is assymetric since its estimated to be
+1! We can see other options using the binom.confint function from the
+<em>binom</em> package.</p>
+<pre class="r"><code>library(binom)
+binom.confint(10,10)</code></pre>
+<pre><code>##           method  x  n      mean     lower    upper
+## 1  agresti-coull 10 10 1.0000000 0.6791127 1.043355
+## 2     asymptotic 10 10 1.0000000 1.0000000 1.000000
+## 3          bayes 10 10 0.9545455 0.8292269 1.000000
+## 4        cloglog 10 10 1.0000000 0.6915029 1.000000
+## 5          exact 10 10 1.0000000 0.6915029 1.000000
+## 6          logit 10 10 1.0000000 0.6915029 1.000000
+## 7         probit 10 10 1.0000000 0.6915029 1.000000
+## 8        profile 10 10 1.0000000 0.7303058 1.000000
+## 9            lrt 10 10 1.0000000 0.8252466 1.000000
+## 10     prop.test 10 10 1.0000000 0.6554628 1.000000
+## 11        wilson 10 10 1.0000000 0.7224672 1.000000</code></pre>
+</div>
+<div id="practice" class="section level3">
+<h3>Practice!</h3>
+<p>Make sure you are comfortable with null and alternative hypotheses
+for all examples.</p>
+<div id="section" class="section level4">
+<h4>1</h4>
+<ol style="list-style-type: decimal">
+<li>Are people eared (do they prefer one ear or another)? Of 25 people
+observed while in conversation in a nightclub, 19 turned their right ear
+to the speaker and 6 turn their left ear to the speaker. How strong is
+the evidence for eared-ness given this data (adapted from Analysis of
+Biological Data)?</li>
+</ol>
+<ul>
+<li>state a null and alternative hypothesis</li>
+<li>calculate a test statistic (signal) for this data</li>
+<li>Make you understand how to construct a null distribution
+<ul>
+<li>using sampling/simulation (code or written explanation)</li>
+<li>by using an appropriate distribution (code or written explanation)
+*Calculate and compare p-values obtained using</li>
+<li>simulation (calculation won’t be required on test, but make sure you
+understand!) (code or written explanation)</li>
+<li>equations for binomial distribution (code or written
+explanation)</li>
+<li>R functions (required)(code)</li>
+</ul></li>
+<li>Calculate a 95% confidence interval for the proportion of people who
+are right-eared</li>
+<li>How do your 95% confidence interval and hypothesis test
+compare?</li>
+</ul>
+<p><strong>Answer</strong></p>
+<p><span class="math inline">\(H_{0}\)</span>: There <strong>is no
+difference</strong> in the number of people who prefer their left ear or
+their right ear.</p>
+<p><span class="math inline">\(H_{A}\)</span>: There <strong>is a
+difference</strong> in the number of people who prefer their left ear or
+their right ear.</p>
+<pre class="r"><code>binom.test(19, 25)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  19 and 25
+## number of successes = 19, number of trials = 25, p-value = 0.01463
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.5487120 0.9064356
+## sample estimates:
+## probability of success 
+##                   0.76</code></pre>
+<p>The probability of success, assuming <em>right-eared</em> is
+<em>success</em> and <em>left-eared</em> is failure, is (19/25) 0.76, or
+76%.</p>
+<p><strong>Simulation</strong></p>
+<pre class="r"><code>#get 10000 samples
+sampling_experiment = rbinom(10000, 25, 0.5)
+sampling_experiment_df &lt;- data.frame(&#39;Right_Handed&#39; = sampling_experiment)</code></pre>
+</div>
+</div>
+</div>
+<div id="plot-1" class="section level1">
+<h1>plot 1</h1>
+<p>#ggplot2 had issue with subset dataframe for bar, thus remade
+frame…</p>
+<pre class="r"><code>ggplot(data.frame(Right_Handed = sampling_experiment_df[1,]), aes(Right_Handed)) + 
+  geom_bar(size = 1, width = 0.5, fill = &quot;orange&quot;, color = &quot;black&quot;)+
+  xlim(0, 20) +
+  xlab(&quot;# of right-eared people&quot;)+
+  ylab(&quot;Frequency&quot;)+
+  ggtitle(&quot;Number of right-eared people under the null distribution, 1 sample&quot;)+
+  theme(axis.title.x = element_text(size = 14), 
+        axis.title.y = element_text(size = 14), 
+        axis.text.y  = element_text(size = 10),
+        axis.text.x  = element_text(size = 10), 
+        legend.text =element_text(size = 10),
+        legend.title = element_text(size = 10),
+        legend.position = &quot;bottom&quot;,
+        plot.title = element_text(hjust = 0.5, size = 12))+
+  guides(fill = F)</code></pre>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
+<p><img
+src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
+<pre class="r"><code># plot 2 ####
+
+ggplot(data.frame(Right_Handed = sampling_experiment_df[1:2,]), aes(Right_Handed)) + 
+  geom_bar(size = 1, width = 0.5, fill = &quot;orange&quot;, color = &quot;black&quot;)+
+  xlim(0, 20) +
+  xlab(&quot;# of right-eared people&quot;)+
+  ylab(&quot;Frequency&quot;)+
+  ggtitle(&quot;Number of right-eared people under the null distribution, 2 samples&quot;)+
+  theme(axis.title.x = element_text(size = 14), 
+        axis.title.y = element_text(size = 14), 
+        axis.text.y  = element_text(size = 10),
+        axis.text.x  = element_text(size = 10), 
+        legend.text =element_text(size = 10),
+        legend.title = element_text(size = 10),
+        legend.position = &quot;bottom&quot;,
+        plot.title = element_text(hjust = 0.5, size = 12))+
+  guides(fill = F)</code></pre>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
+<p><img
+src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-8-1.png" /><!-- --></p>
+<pre class="r"><code># plot 3 ####
+
+ggplot(data.frame(Right_Handed = sampling_experiment_df[1:3,]), aes(Right_Handed)) + 
+  geom_bar(size = 1, width = 0.5, fill = &quot;orange&quot;, color = &quot;black&quot;)+
+  xlim(0, 20) +
+  xlab(&quot;# of right-eared people&quot;)+
+  ylab(&quot;Frequency&quot;)+
+  ggtitle(&quot;Number of right-eared people under the null distribution, 3 samples&quot;)+
+  theme(axis.title.x = element_text(size = 14), 
+        axis.title.y = element_text(size = 14), 
+        axis.text.y  = element_text(size = 10),
+        axis.text.x  = element_text(size = 10), 
+        legend.text =element_text(size = 10),
+        legend.title = element_text(size = 10),
+        legend.position = &quot;bottom&quot;,
+        plot.title = element_text(hjust = 0.5, size = 12))+
+  guides(fill = F)</code></pre>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
+<p><img
+src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-9-1.png" /><!-- --></p>
+<pre class="r"><code># plot all ####
+
+ggplot(sampling_experiment_df, aes(Right_Handed)) +
+  geom_bar(size = 1, width = 0.5, fill = &quot;orange&quot;, color = &quot;black&quot;)+
+  xlim(0, 20) +
+  xlab(&quot;# of right-eared people&quot;)+
+  ylab(&quot;Frequency&quot;)+
+  ggtitle(&quot;Number of right-eared people under the null distribution, 10,000 sample&quot;)+
+  theme(axis.title.x = element_text(size = 14), 
+        axis.title.y = element_text(size = 14), 
+        axis.text.y  = element_text(size = 10),
+        axis.text.x  = element_text(size = 10), 
+        legend.text =element_text(size = 10),
+        legend.title = element_text(size = 10),
+        legend.position = &quot;bottom&quot;,
+        plot.title = element_text(hjust = 0.5, size = 12))+
+  guides(fill = F)</code></pre>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
+<pre><code>## Warning: Removed 5 rows containing non-finite values (stat_count).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_bar).</code></pre>
+<p><img
+src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-10-1.png" /><!-- --></p>
+<pre class="r"><code>#using the binomial distribution####
+using_distribution = dbinom(0:25, 25, 0.5)
+using_distribution</code></pre>
+<pre><code>##  [1] 2.980232e-08 7.450581e-07 8.940697e-06 6.854534e-05 3.769994e-04
+##  [6] 1.583397e-03 5.277991e-03 1.432598e-02 3.223345e-02 6.088540e-02
+## [11] 9.741664e-02 1.328409e-01 1.549810e-01 1.549810e-01 1.328409e-01
+## [16] 9.741664e-02 6.088540e-02 3.223345e-02 1.432598e-02 5.277991e-03
+## [21] 1.583397e-03 3.769994e-04 6.854534e-05 8.940697e-06 7.450581e-07
+## [26] 2.980232e-08</code></pre>
+<pre class="r"><code>sum(using_distribution)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>Number_right_eared = c(0:25)
+pdf = data.frame(Number_right_eared, using_distribution)
+plot(0:25, using_distribution)</code></pre>
+<p><img
+src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-11-1.png" /><!-- --></p>
+<pre class="r"><code>#for all plots, R takes a best guess at the best type of plot; you can also
+#direct it with the type command.  ?plot for more info</code></pre>
+<pre class="r"><code>barplot(using_distribution, xlab = &quot;# of Right-eared people out of 25&quot;, ylab = &quot;Probability of being drawn from population of p = 0.5&quot; )</code></pre>
+<p><img
+src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-12-1.png" /><!-- --></p>
+<pre class="r"><code>ggplot(pdf, aes(x= Number_right_eared, y = using_distribution)) + 
+  geom_bar(size=1, width = 1, fill=&quot;orange&quot;, color=&quot;black&quot;, stat = &quot;identity&quot;)+
+  xlim(0,20) +
+  xlab(&quot;# of right-eared people&quot;)+
+  ylab(&quot;Frequency&quot;)+
+  ggtitle(&quot;Number of right-eared people under the binomial distribution&quot;)+
+  theme(axis.title.x = element_text(size = 14), 
+        axis.title.y = element_text(size = 14), 
+        axis.text.y  = element_text(size = 10),
+        axis.text.x  = element_text(size=10), 
+        legend.text =element_text(size = 10),
+        legend.title = element_text(size = 10, face=&quot;bold&quot;),
+        legend.position = &quot;bottom&quot;,
+        plot.title = element_text(hjust = 0.5, size = 14))+
+  guides(fill = F)</code></pre>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
+<pre><code>## Warning: Removed 5 rows containing missing values (position_stack).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
+<p><img
+src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-13-1.png" /><!-- --></p>
+<pre class="r"><code>#probability of 14 or more####
+(1-sum(dbinom(0:18, 25 , 0.5))) * 2</code></pre>
+<pre><code>## [1] 0.0146333</code></pre>
+<pre class="r"><code>#multiply by 2 since symmetrical
+#or
+(1-pbinom(18, 25, 0.5)) * 2</code></pre>
+<pre><code>## [1] 0.0146333</code></pre>
+<pre class="r"><code>#remember the one comes from the fact the entire distribution must sum to 1
+#or
+#using our sample
+length(sampling_experiment[sampling_experiment &gt;= 14 | sampling_experiment &lt;= 4])/
+  length(sampling_experiment)</code></pre>
+<pre><code>## [1] 0.345</code></pre>
+<pre class="r"><code>#binomial test####
+binom.test(x = 19, n = 25, p = 0.5)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  19 and 25
+## number of successes = 19, number of trials = 25, p-value = 0.01463
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.5487120 0.9064356
+## sample estimates:
+## probability of success 
+##                   0.76</code></pre>
+<p>Take a coin and flip it 25 times, count Heads (Right-Eared) and Tails
+(Left-Eared), then repeat x10,000 times and get a distribution of
+proportions, Heads and Tails, or Right_Eared vs. Left-Eared.</p>
+<p><strong>Equations</strong></p>
+<p>If <span class="math inline">\(p\)</span> is the probability of
+success in any single trial then the probability of <span
+class="math inline">\(x\)</span> successes in <span
+class="math inline">\(n\)</span> trials is <span class="math display">\[
+   f(x) = \binom{n}{x} p^x (1 - p)^{n - x}, \qquad x = 0, 1, 2, \ldots,
+n.
+\]</span> where <span class="math display">\[
+   \binom{n}{x} = \frac{n!}{x! \, (n - x)!}
+\]</span> is called a <em>binomial coefficient</em> and gives the
+distribution its name. And this is the PMF of the <em>binomial
+distribution</em>.</p>
+<p>The fact that probabilities sum to one is a special case of the
+<em>binomial theorem</em> <span class="math display">\[
+   \sum_{x = 0}^n \binom{n}{x} a^x b^{n - x} = (a + b)^n.
+\]</span></p>
+<p>The <strong>p-value</strong> is 0.01463. So, we reject the null
+hypothesis that there is no difference between the number of people who
+are <em>right-eared</em> and <em>left-eared</em>.</p>
+<p>As above, using the function <code>binom.test</code>, the <strong>95%
+confidence interval</strong> is 0.5487120 to 0.9064356.</p>
+<p>Also…</p>
+<pre class="r"><code>binom.confint(19, 25)</code></pre>
+<pre><code>##           method  x  n mean     lower     upper
+## 1  agresti-coull 19 25 0.76 0.5624805 0.8882596
+## 2     asymptotic 19 25 0.76 0.5925865 0.9274135
+## 3          bayes 19 25 0.75 0.5854415 0.9037771
+## 4        cloglog 19 25 0.76 0.5420481 0.8842776
+## 5          exact 19 25 0.76 0.5487120 0.9064356
+## 6          logit 19 25 0.76 0.5584422 0.8880044
+## 7         probit 19 25 0.76 0.5666202 0.8934027
+## 8        profile 19 25 0.76 0.5724026 0.8967715
+## 9            lrt 19 25 0.76 0.5724301 0.8968455
+## 10     prop.test 19 25 0.76 0.5447916 0.8984194
+## 11        wilson 19 25 0.76 0.5657032 0.8850369</code></pre>
+<p>The <strong>95% confidence interval</strong> includes the</p>
+<div id="section-1" class="section level4">
+<h4>2</h4>
+<ol start="2" style="list-style-type: decimal">
+<li>A professor lets his dog take every multiple-choice test to see how
+it compares to his students (I know someone who did this).
+Unfortunately, the professor believes undergraduates in the class
+tricked him by helping the dog do better on a test. It’s a 100 question
+test, and every questions has 4 answer choices. For the last test, the
+dog picked 33 questions correctly. How likely is this to happen, and is
+there evidence the students helped the dog?</li>
+</ol>
+<p><strong>MAKE SURE TO THINK ABOUT YOUR TEST OPTIONS</strong></p>
+<p><strong>Answer</strong></p>
+<p><span class="math inline">\(H_{0}\)</span>: There <strong>is no
+difference</strong> in test scores, considering whether the dog score by
+chance (25/100) or if the students helped the dog (33/100).</p>
+<p><span class="math inline">\(H_{A}\)</span>: There <strong>is a
+difference</strong> in test scores, considering whether the dog scores
+by chance (25/100) or if the students helped the dog (33/100).</p>
+<p>The probability of success, assuming <em>right-eared</em> is
+<em>success</em> and <em>left-eared</em> is failure, is (19/25) 0.76, or
+76%.</p>
+<pre class="r"><code>binom.test(33, 100, p = 0.25,
+           alternative = c(&quot;two.sided&quot;),
+           conf.level = 0.95)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  33 and 100
+## number of successes = 33, number of trials = 100, p-value = 0.08222
+## alternative hypothesis: true probability of success is not equal to 0.25
+## 95 percent confidence interval:
+##  0.2391985 0.4311728
+## sample estimates:
+## probability of success 
+##                   0.33</code></pre>
+<pre class="r"><code>binom.test(33, 100, p = 0.25,
+           alternative = c(&quot;greater&quot;),
+           conf.level = 0.95)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  33 and 100
+## number of successes = 33, number of trials = 100, p-value = 0.0446
+## alternative hypothesis: true probability of success is greater than 0.25
+## 95 percent confidence interval:
+##  0.2523035 1.0000000
+## sample estimates:
+## probability of success 
+##                   0.33</code></pre>
+<p><strong>Reject the null hypothesis</strong> - <em>there is
+evidence</em> that the students helped the dog with the test.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4,h5",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
