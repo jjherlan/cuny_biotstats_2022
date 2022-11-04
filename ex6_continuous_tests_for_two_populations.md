@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 04 November, 2022 11:35"
+date: "Last compiled on 04 November, 2022 11:37"
 output:
   html_document:
     toc: true
@@ -387,9 +387,9 @@ bootstrapjsg(fertilizer_wide$new, fertilizer_wide$old)
 ##                                                                       
 ##                             "0.95" "% Percentile Confidence Interval" 
 ##                                                                       
-##                           "1.7275"                 "7.42493739791514" 
+##                           "1.7975"                 "7.47737479583027" 
 ##                                                                       
-##                          "p-value"                           "0.0011"
+##                          "p-value"                            "9e-04"
 ```
 
 
@@ -498,7 +498,7 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
+##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
 ##                                                                         
 ##     "-5.33333333333333"               "p-value"                 "1e-04"
 ```
@@ -599,9 +599,9 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.4444444444444" 
+##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
 ##                                                                         
-##     "-5.55555555555556"               "p-value"                     "0"
+##     "-5.44444444444444"               "p-value"                     "0"
 ```
 
 
