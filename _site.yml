@@ -7,5 +7,7 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
+      text: "Lesson 3"
+    - text: ex3_introduction_to_hypothesis_testing_via_binomial_tests.html
     - text: "Lesson 6"
       href: ex6_continuous_tests_for_two_populations.html
