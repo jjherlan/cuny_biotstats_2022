@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 04 November, 2022 11:46"
+date: "Last compiled on 05 November, 2022 10:31"
 output:
   html_document:
     toc: true
@@ -41,9 +41,8 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages
-## ────────────────────────────── tidyverse 1.3.2
-## ──
+## ── Attaching packages ────────────────────────
+## tidyverse 1.3.2 ──
 ```
 
 ```
@@ -51,7 +50,7 @@ library(tidyverse)
 ## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
 ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
 ## ✔ purrr   0.3.5      
-## ── Conflicts ───────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ─────────────────────────── tidyverse_conflicts() ──
 ## ✖ tidyr::expand() masks reshape::expand()
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
@@ -261,7 +260,7 @@ bootstrapjsg(drug.df$drugB, drug.df$DrugG)
 ##                                                                         
 ##                  "0.95" "% Confidence Interval"      "8.33333333333333" 
 ##                                                                         
-##      "9.18333333333333"               "p-value"                     "0"
+##      "9.16666666666667"               "p-value"                     "0"
 ```
 
 
@@ -387,9 +386,9 @@ bootstrapjsg(fertilizer_wide$new, fertilizer_wide$old)
 ##                                                                       
 ##                             "0.95" "% Percentile Confidence Interval" 
 ##                                                                       
-##                 "1.76762520416972"                             "7.51" 
+##                           "1.7825"                 "7.43243739791513" 
 ##                                                                       
-##                          "p-value"                            "9e-04"
+##                          "p-value"                           "0.0011"
 ```
 
 
@@ -500,7 +499,7 @@ bootstrapjsg(meta_diff)
 ##                                                                         
 ##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
 ##                                                                         
-##     "-5.33333333333333"               "p-value"                     "0"
+##     "-5.55555555555556"               "p-value"                 "1e-04"
 ```
 
 #### 4
