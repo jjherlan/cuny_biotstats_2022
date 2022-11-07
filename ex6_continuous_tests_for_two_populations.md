@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 07 November, 2022 08:11"
+date: "Last compiled on 07 November, 2022 08:12"
 output:
   html_document:
     toc: true
@@ -42,23 +42,16 @@ library(tidyverse)
 
 ```
 ## ── Attaching packages
-## ───────────────────────────────────────
+## ──────────────────────────────────────
 ## tidyverse 1.3.2 ──
 ```
 
 ```
-## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
 ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
 ## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 4.2.2
-```
-
-```
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ✔ purrr   0.3.5      
+## ── Conflicts ───────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ tidyr::expand() masks reshape::expand()
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
@@ -266,9 +259,9 @@ bootstrapjsg(drug.df$drugB, drug.df$DrugG)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"      "8.31666666666667" 
+##                  "0.95" "% Confidence Interval"      "8.33333333333333" 
 ##                                                                         
-##      "9.18333333333333"               "p-value"                     "0"
+##      "9.16666666666667"               "p-value"                     "0"
 ```
 
 
@@ -394,7 +387,7 @@ bootstrapjsg(fertilizer_wide$new, fertilizer_wide$old)
 ##                                                                       
 ##                             "0.95" "% Percentile Confidence Interval" 
 ##                                                                       
-##                 "1.75506260208486"                 "7.45237479583028" 
+##                           "1.7825"                 "7.43243739791513" 
 ##                                                                       
 ##                          "p-value"                           "0.0011"
 ```
@@ -505,7 +498,7 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
+##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
 ##                                                                         
 ##     "-5.55555555555556"               "p-value"                 "1e-04"
 ```
@@ -608,7 +601,7 @@ bootstrapjsg(meta_diff)
 ##                                                                         
 ##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
 ##                                                                         
-##     "-5.44444444444444"               "p-value"                 "1e-04"
+##     "-5.44444444444444"               "p-value"                 "2e-04"
 ```
 
 

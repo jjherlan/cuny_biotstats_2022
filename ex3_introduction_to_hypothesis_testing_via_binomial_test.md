@@ -1,7 +1,7 @@
 ---
 title: "3. Introduction to hypothesis testing via binomial tests"
 author: "jjh"
-date: "Last compiled on 07 November, 2022 08:10"
+date: "Last compiled on 07 November, 2022 08:12"
 output:
   html_document:
     toc: true
@@ -277,7 +277,7 @@ ggplot(sampling_experiment_df, aes(Right_Handed)) +
 ```
 
 ```
-## Warning: Removed 3 rows containing non-finite values (`stat_count()`).
+## Warning: Removed 2 rows containing non-finite values (`stat_count()`).
 ```
 
 ```
@@ -389,7 +389,7 @@ length(sampling_experiment[sampling_experiment >= 14 | sampling_experiment <= 4]
 ```
 
 ```
-## [1] 0.3407
+## [1] 0.3427
 ```
 
 ```r
