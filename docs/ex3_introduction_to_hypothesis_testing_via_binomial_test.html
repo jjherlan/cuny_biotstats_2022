@@ -346,7 +346,7 @@ div.tocify {
 <h1 class="title toc-ignore">3. Introduction to hypothesis testing via
 binomial tests</h1>
 <h4 class="author">jjh</h4>
-<h4 class="date">Last compiled on 05 November, 2022 10:31</h4>
+<h4 class="date">Last compiled on 07 November, 2022 08:10</h4>
 
 </div>
 
@@ -356,6 +356,7 @@ binomial tests</h1>
 <pre><code>## Warning: package &#39;binom&#39; was built under R version 4.2.2</code></pre>
 <pre class="r"><code>require(ggplot2)</code></pre>
 <pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
 <p>Before doing this, review the <strong>Introduction To Hypothesis
 Testing Via Binomial Tests</strong> lecture set slides from <a
 href="https://sites.google.com/view/biostats/lessons/hypothesis-testing-with-the-binomial-distribution"
@@ -501,8 +502,10 @@ frame…</p>
         legend.position = &quot;bottom&quot;,
         plot.title = element_text(hjust = 0.5, size = 12))+
   guides(fill = F)</code></pre>
-<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
-## &quot;none&quot;)` instead.</code></pre>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.</code></pre>
+<pre><code>## Warning: The `&lt;scale&gt;` argument of `guides()` cannot be `FALSE`. Use &quot;none&quot; instead as
+## of ggplot2 3.3.4.</code></pre>
 <p><img
 src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
 <pre class="r"><code># plot 2 ####
@@ -522,8 +525,6 @@ ggplot(data.frame(Right_Handed = sampling_experiment_df[1:2,]), aes(Right_Handed
         legend.position = &quot;bottom&quot;,
         plot.title = element_text(hjust = 0.5, size = 12))+
   guides(fill = F)</code></pre>
-<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
-## &quot;none&quot;)` instead.</code></pre>
 <p><img
 src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-8-1.png" /><!-- --></p>
 <pre class="r"><code># plot 3 ####
@@ -543,8 +544,6 @@ ggplot(data.frame(Right_Handed = sampling_experiment_df[1:3,]), aes(Right_Handed
         legend.position = &quot;bottom&quot;,
         plot.title = element_text(hjust = 0.5, size = 12))+
   guides(fill = F)</code></pre>
-<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
-## &quot;none&quot;)` instead.</code></pre>
 <p><img
 src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-9-1.png" /><!-- --></p>
 <pre class="r"><code># plot all ####
@@ -564,10 +563,8 @@ ggplot(sampling_experiment_df, aes(Right_Handed)) +
         legend.position = &quot;bottom&quot;,
         plot.title = element_text(hjust = 0.5, size = 12))+
   guides(fill = F)</code></pre>
-<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
-## &quot;none&quot;)` instead.</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite values (stat_count).</code></pre>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_bar).</code></pre>
+<pre><code>## Warning: Removed 3 rows containing non-finite values (`stat_count()`).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (`geom_bar()`).</code></pre>
 <p><img
 src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-10-1.png" /><!-- --></p>
 <pre class="r"><code>#using the binomial distribution####
@@ -606,10 +603,8 @@ src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/
         legend.position = &quot;bottom&quot;,
         plot.title = element_text(hjust = 0.5, size = 14))+
   guides(fill = F)</code></pre>
-<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
-## &quot;none&quot;)` instead.</code></pre>
-<pre><code>## Warning: Removed 5 rows containing missing values (position_stack).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
+<pre><code>## Warning: Removed 5 rows containing missing values (`position_stack()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (`geom_bar()`).</code></pre>
 <p><img
 src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-13-1.png" /><!-- --></p>
 <pre class="r"><code>#probability of 14 or more####
@@ -624,7 +619,7 @@ src="ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/
 #using our sample
 length(sampling_experiment[sampling_experiment &gt;= 14 | sampling_experiment &lt;= 4])/
   length(sampling_experiment)</code></pre>
-<pre><code>## [1] 0.3427</code></pre>
+<pre><code>## [1] 0.3407</code></pre>
 <pre class="r"><code>#binomial test####
 binom.test(x = 19, n = 25, p = 0.5)</code></pre>
 <pre><code>## 
