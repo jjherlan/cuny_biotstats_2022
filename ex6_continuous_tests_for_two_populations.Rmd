@@ -314,12 +314,11 @@ ais_tibble
 ```{r}
 ais_wide <-
   ais_tibble %>%
-  select(c(Sex, Hg)) 
-#%>%
-#  group_by(Sex) %>%
-#  dplyr::mutate(row = row_number()) %>%
-#  tidyr::pivot_wider(names_from = Sex, 
-#              values_from = Hg)
+  dplyr::select(c(Sex, Hg)) %>%
+  group_by(Sex) %>%
+  dplyr::mutate(row = row_number()) %>%
+  tidyr::pivot_wider(names_from = Sex, 
+              values_from = Hg)
 ```
 
 ```{r}
@@ -511,7 +510,7 @@ chol_wide <-
   chol_tibble %>%
   pivot_wider(names_from = "day", values_from = "cholest") %>%
   dplyr::rename("day2" = "2", "day4" = "4") %>%
-  select(-'14', -"NA") %>%
+  dplyr::select(-'14', -"NA") %>%
   na.omit()
 
 chol_wide
@@ -520,7 +519,7 @@ chol_wide
 ```{r}
 chol_long <-
   chol_wide %>%
-  select(-'patient') %>%
+  dplyr::select(-'patient') %>%
   pivot_longer(!group, names_to = "day", values_to = "chol")
 
 chol_long

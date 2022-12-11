@@ -1,7 +1,7 @@
 ---
 title: "11. Linear model extensions"
 author: "jsg"
-date: "Last compiled on 11 December, 2022 17:39"
+date: "Last compiled on 11 December, 2022 17:53"
 output:
   html_document:
     toc: true

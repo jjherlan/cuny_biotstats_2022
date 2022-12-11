@@ -360,72 +360,56 @@ div.tocify {
 
 <h1 class="title toc-ignore">6. Continuous tests 2 populations</h1>
 <h4 class="author">jjh</h4>
-<h4 class="date">Last compiled on 11 December, 2022 17:30</h4>
+<h4 class="date">Last compiled on 11 December, 2022 17:54</h4>
 
 </div>
 
 
-<pre class="r"><code>library(reshape)
-library(reshape2)</code></pre>
+<pre class="r"><code>library(reshape)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;reshape&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:plyr&#39;:
+## 
+##     rename, round_any</code></pre>
+<pre><code>## The following object is masked from &#39;package:Matrix&#39;:
+## 
+##     expand</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     rename</code></pre>
+<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
+## 
+##     expand, smiths</code></pre>
+<pre class="r"><code>library(reshape2)</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;reshape2&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:reshape&#39;:
 ## 
 ##     colsplit, melt, recast</code></pre>
-<pre class="r"><code>library(coin)</code></pre>
-<pre><code>## Loading required package: survival</code></pre>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages
-## ───────────────────────────────────────
-## tidyverse 1.3.2 ──</code></pre>
-<pre><code>## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ tidyr::expand() masks reshape::expand()
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ dplyr::rename() masks reshape::rename()</code></pre>
-<pre class="r"><code>packageVersion(&quot;dplyr&quot;)</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     smiths</code></pre>
+<pre class="r"><code>library(coin)
+library(tidyverse)
+packageVersion(&quot;dplyr&quot;)</code></pre>
 <pre><code>## [1] &#39;1.0.10&#39;</code></pre>
-<pre class="r"><code>require(Rmisc)</code></pre>
-<pre><code>## Loading required package: Rmisc
-## Loading required package: lattice
-## Loading required package: plyr</code></pre>
-<pre><code>## Warning: package &#39;plyr&#39; was built under R version 4.2.2</code></pre>
-<pre><code>## ------------------------------------------------------------------------------
-## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)
-## ------------------------------------------------------------------------------
+<pre class="r"><code>require(Rmisc)
+require(BSDA)</code></pre>
+<pre><code>## Loading required package: BSDA</code></pre>
+<pre><code>## 
+## Attaching package: &#39;BSDA&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:nlme&#39;:
 ## 
-## Attaching package: &#39;plyr&#39;
+##     Gasoline, Wheat</code></pre>
+<pre><code>## The following objects are masked from &#39;package:carData&#39;:
 ## 
-## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize
-## 
-## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     compact
-## 
-## The following objects are masked from &#39;package:reshape&#39;:
-## 
-##     rename, round_any</code></pre>
-<pre class="r"><code>require(BSDA)</code></pre>
-<pre><code>## Loading required package: BSDA
-## 
-## Attaching package: &#39;BSDA&#39;
-## 
-## The following object is masked from &#39;package:datasets&#39;:
+##     Vocab, Wool</code></pre>
+<pre><code>## The following object is masked from &#39;package:datasets&#39;:
 ## 
 ##     Orange</code></pre>
 <pre class="r"><code>require(simpleboot)</code></pre>
-<pre><code>## Loading required package: simpleboot
-## Simple Bootstrap Routines (1.1-7)</code></pre>
+<pre><code>## Loading required package: simpleboot</code></pre>
+<pre><code>## Simple Bootstrap Routines (1.1-7)</code></pre>
 <div id="practice" class="section level2">
 <h2>Practice</h2>
 <div
@@ -542,10 +526,13 @@ two groups</p>
 <pre><code>## The following object is masked from &#39;package:survival&#39;:
 ## 
 ##     aml</code></pre>
+<pre><code>## The following object is masked from &#39;package:car&#39;:
+## 
+##     logit</code></pre>
 <pre><code>## Warning in boot.ci(a, conf): bootstrap variances needed for studentized
 ## intervals</code></pre>
 <pre><code>##                                                                         
-##                  &quot;0.95&quot; &quot;% Confidence Interval&quot;      &quot;8.31666666666667&quot; 
+##                  &quot;0.95&quot; &quot;% Confidence Interval&quot;      &quot;8.33333333333333&quot; 
 ##                                                                         
 ##      &quot;9.16666666666667&quot;               &quot;p-value&quot;                     &quot;0&quot;</code></pre>
 <pre class="r"><code>independence_test(drug ~ type, drug3.df)</code></pre>
@@ -620,9 +607,9 @@ fertilizer_wide &lt;- dcast(fert, ID ~ fertilizer, value.var = &quot;height&quot
 <pre><code>##                                                                       
 ##                             &quot;0.95&quot; &quot;% Percentile Confidence Interval&quot; 
 ##                                                                       
-##                 &quot;1.73787561250917&quot;                           &quot;7.5125&quot; 
+##                 &quot;1.79756260208486&quot;                           &quot;7.4575&quot; 
 ##                                                                       
-##                          &quot;p-value&quot;                            &quot;8e-04&quot;</code></pre>
+##                          &quot;p-value&quot;                            &quot;7e-04&quot;</code></pre>
 <pre class="r"><code>independence_test(drug ~ type, drug3.df)</code></pre>
 <pre><code>## 
 ##  Asymptotic General Independence Test
@@ -692,9 +679,9 @@ bootstrapjsg(meta_diff)</code></pre>
 <pre><code>## Warning in boot.ci(a, conf): bootstrap variances needed for studentized
 ## intervals</code></pre>
 <pre><code>##                                                                         
-##                  &quot;0.95&quot; &quot;% Confidence Interval&quot;     &quot;-18.5555555555556&quot; 
+##                  &quot;0.95&quot; &quot;% Confidence Interval&quot;     &quot;-18.2222222222222&quot; 
 ##                                                                         
-##     &quot;-5.55555555555556&quot;               &quot;p-value&quot;                     &quot;0&quot;</code></pre>
+##     &quot;-5.44444444444444&quot;               &quot;p-value&quot;                     &quot;0&quot;</code></pre>
 </div>
 <div id="section-3" class="section level4">
 <h4>4</h4>
@@ -757,9 +744,9 @@ bootstrapjsg(meta_diff)</code></pre>
 <pre><code>## Warning in boot.ci(a, conf): bootstrap variances needed for studentized
 ## intervals</code></pre>
 <pre><code>##                                                                         
-##                  &quot;0.95&quot; &quot;% Confidence Interval&quot;     &quot;-18.2222222222222&quot; 
+##                  &quot;0.95&quot; &quot;% Confidence Interval&quot;     &quot;-18.3333333333333&quot; 
 ##                                                                         
-##     &quot;-5.33333333333333&quot;               &quot;p-value&quot;                 &quot;1e-04&quot;</code></pre>
+##     &quot;-5.55555555555556&quot;               &quot;p-value&quot;                 &quot;1e-04&quot;</code></pre>
 </div>
 </div>
 <div
@@ -1209,7 +1196,8 @@ concentration (Hg).</li>
   geom_histogram() # +
   #facet_wrap(vars(Sex), ncol = 1)</code></pre>
 <pre class="r"><code>ais_histogram</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better
+## value with `binwidth`.</code></pre>
 <p><img
 src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-34-1.png" /><!-- --></p>
 <pre class="r"><code>ais_histogram &lt;- 
@@ -1218,7 +1206,8 @@ src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-34
   geom_histogram() +
   facet_wrap(vars(Sex), ncol = 1)</code></pre>
 <pre class="r"><code>ais_histogram</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better
+## value with `binwidth`.</code></pre>
 <p><img
 src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-36-1.png" /><!-- --></p>
 <pre class="r"><code>summarySE(ais_tibble, measurevar = &#39;Hg&#39;, groupvars = c(&#39;Sex&#39;, &#39;Sport&#39;), na.rm = T)</code></pre>
@@ -1271,10 +1260,24 @@ src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-36
 ## W = 556.5, p-value &lt; 2.2e-16
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 <p><strong>Binary test</strong></p>
-<pre class="r"><code># SIGN.TEST()</code></pre>
+<pre class="r"><code>ais_tibble</code></pre>
+<pre><code>## # A tibble: 202 × 13
+##    Sex    Sport   RCC   WCC    Hc    Hg  Ferr   BMI   SSF X.Bfat   LBM    Ht
+##    &lt;fct&gt;  &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 female BBall  3.96   7.5  37.5  12.3    60  20.6 109.    19.8  63.3  196.
+##  2 female BBall  4.41   8.3  38.2  12.7    68  20.7 103.    21.3  58.6  190.
+##  3 female BBall  4.14   5    36.4  11.6    21  21.9 105.    19.9  55.4  178.
+##  4 female BBall  4.11   5.3  37.3  12.6    69  21.9 126.    23.7  57.2  185 
+##  5 female BBall  4.45   6.8  41.5  14      29  19.0  80.3   17.6  53.2  185.
+##  6 female BBall  4.1    4.4  37.4  12.5    42  21.0  75.2   15.6  53.8  174 
+##  7 female BBall  4.31   5.3  39.6  12.8    73  21.7  87.2   20.0  60.2  186.
+##  8 female BBall  4.42   5.7  39.9  13.2    44  20.6  97.9   22.4  48.3  174.
+##  9 female BBall  4.3    8.9  41.1  13.5    41  22.6  75.1   18.0  54.6  171.
+## 10 female BBall  4.51   4.4  41.6  12.7    44  19.4  65.1   15.1  53.4  180.
+## # … with 192 more rows, and 1 more variable: Wt &lt;dbl&gt;</code></pre>
 <pre class="r"><code>ais_wide &lt;-
   ais_tibble %&gt;%
-  select(Sex, Hg) %&gt;%
+  dplyr::select(c(Sex, Hg)) %&gt;%
   group_by(Sex) %&gt;%
   dplyr::mutate(row = row_number()) %&gt;%
   tidyr::pivot_wider(names_from = Sex, 
@@ -1716,7 +1719,7 @@ chol_tibble</code></pre>
   chol_tibble %&gt;%
   pivot_wider(names_from = &quot;day&quot;, values_from = &quot;cholest&quot;) %&gt;%
   dplyr::rename(&quot;day2&quot; = &quot;2&quot;, &quot;day4&quot; = &quot;4&quot;) %&gt;%
-  select(-&#39;14&#39;, -&quot;NA&quot;) %&gt;%
+  dplyr::select(-&#39;14&#39;, -&quot;NA&quot;) %&gt;%
   na.omit()
 
 chol_wide</code></pre>
@@ -1736,7 +1739,7 @@ chol_wide</code></pre>
 ## # … with 18 more rows</code></pre>
 <pre class="r"><code>chol_long &lt;-
   chol_wide %&gt;%
-  select(-&#39;patient&#39;) %&gt;%
+  dplyr::select(-&#39;patient&#39;) %&gt;%
   pivot_longer(!group, names_to = &quot;day&quot;, values_to = &quot;chol&quot;)
 
 chol_long</code></pre>

@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 11 December, 2022 17:30"
+date: "Last compiled on 11 December, 2022 17:54"
 output:
   html_document:
     toc: true
@@ -14,6 +14,38 @@ output:
 
 ```r
 library(reshape)
+```
+
+```
+## 
+## Attaching package: 'reshape'
+```
+
+```
+## The following objects are masked from 'package:plyr':
+## 
+##     rename, round_any
+```
+
+```
+## The following object is masked from 'package:Matrix':
+## 
+##     expand
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     rename
+```
+
+```
+## The following objects are masked from 'package:tidyr':
+## 
+##     expand, smiths
+```
+
+```r
 library(reshape2)
 ```
 
@@ -28,44 +60,15 @@ library(reshape2)
 ##     colsplit, melt, recast
 ```
 
+```
+## The following object is masked from 'package:tidyr':
+## 
+##     smiths
+```
+
 ```r
 library(coin)
-```
-
-```
-## Loading required package: survival
-```
-
-```r
 library(tidyverse)
-```
-
-```
-## ── Attaching packages
-## ───────────────────────────────────────
-## tidyverse 1.3.2 ──
-```
-
-```
-## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 4.2.2
-```
-
-```
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ tidyr::expand() masks reshape::expand()
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ dplyr::rename() masks reshape::rename()
-```
-
-```r
 packageVersion("dplyr")
 ```
 
@@ -75,50 +78,31 @@ packageVersion("dplyr")
 
 ```r
 require(Rmisc)
-```
-
-```
-## Loading required package: Rmisc
-## Loading required package: lattice
-## Loading required package: plyr
-```
-
-```
-## Warning: package 'plyr' was built under R version 4.2.2
-```
-
-```
-## ------------------------------------------------------------------------------
-## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)
-## ------------------------------------------------------------------------------
-## 
-## Attaching package: 'plyr'
-## 
-## The following objects are masked from 'package:dplyr':
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize
-## 
-## The following object is masked from 'package:purrr':
-## 
-##     compact
-## 
-## The following objects are masked from 'package:reshape':
-## 
-##     rename, round_any
-```
-
-```r
 require(BSDA)
 ```
 
 ```
 ## Loading required package: BSDA
+```
+
+```
 ## 
 ## Attaching package: 'BSDA'
+```
+
+```
+## The following objects are masked from 'package:nlme':
 ## 
+##     Gasoline, Wheat
+```
+
+```
+## The following objects are masked from 'package:carData':
+## 
+##     Vocab, Wool
+```
+
+```
 ## The following object is masked from 'package:datasets':
 ## 
 ##     Orange
@@ -130,6 +114,9 @@ require(simpleboot)
 
 ```
 ## Loading required package: simpleboot
+```
+
+```
 ## Simple Bootstrap Routines (1.1-7)
 ```
 
@@ -267,13 +254,19 @@ bootstrapjsg(drug.df$drugB, drug.df$DrugG)
 ```
 
 ```
+## The following object is masked from 'package:car':
+## 
+##     logit
+```
+
+```
 ## Warning in boot.ci(a, conf): bootstrap variances needed for studentized
 ## intervals
 ```
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"      "8.31666666666667" 
+##                  "0.95" "% Confidence Interval"      "8.33333333333333" 
 ##                                                                         
 ##      "9.16666666666667"               "p-value"                     "0"
 ```
@@ -401,9 +394,9 @@ bootstrapjsg(fertilizer_wide$new, fertilizer_wide$old)
 ##                                                                       
 ##                             "0.95" "% Percentile Confidence Interval" 
 ##                                                                       
-##                 "1.73787561250917"                           "7.5125" 
+##                 "1.79756260208486"                           "7.4575" 
 ##                                                                       
-##                          "p-value"                            "8e-04"
+##                          "p-value"                            "7e-04"
 ```
 
 
@@ -512,9 +505,9 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.5555555555556" 
+##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
 ##                                                                         
-##     "-5.55555555555556"               "p-value"                     "0"
+##     "-5.44444444444444"               "p-value"                     "0"
 ```
 
 #### 4
@@ -613,9 +606,9 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
+##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
 ##                                                                         
-##     "-5.33333333333333"               "p-value"                 "1e-04"
+##     "-5.55555555555556"               "p-value"                 "1e-04"
 ```
 
 
@@ -1091,7 +1084,8 @@ ais_histogram
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better
+## value with `binwidth`.
 ```
 
 ![](ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
@@ -1111,7 +1105,8 @@ ais_histogram
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better
+## value with `binwidth`.
 ```
 
 ![](ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
@@ -1196,14 +1191,31 @@ wilcox.test(Hg ~ Sex, ais_tibble)
 
 
 ```r
-# SIGN.TEST()
+ais_tibble
+```
+
+```
+## # A tibble: 202 × 13
+##    Sex    Sport   RCC   WCC    Hc    Hg  Ferr   BMI   SSF X.Bfat   LBM    Ht
+##    <fct>  <fct> <dbl> <dbl> <dbl> <dbl> <int> <dbl> <dbl>  <dbl> <dbl> <dbl>
+##  1 female BBall  3.96   7.5  37.5  12.3    60  20.6 109.    19.8  63.3  196.
+##  2 female BBall  4.41   8.3  38.2  12.7    68  20.7 103.    21.3  58.6  190.
+##  3 female BBall  4.14   5    36.4  11.6    21  21.9 105.    19.9  55.4  178.
+##  4 female BBall  4.11   5.3  37.3  12.6    69  21.9 126.    23.7  57.2  185 
+##  5 female BBall  4.45   6.8  41.5  14      29  19.0  80.3   17.6  53.2  185.
+##  6 female BBall  4.1    4.4  37.4  12.5    42  21.0  75.2   15.6  53.8  174 
+##  7 female BBall  4.31   5.3  39.6  12.8    73  21.7  87.2   20.0  60.2  186.
+##  8 female BBall  4.42   5.7  39.9  13.2    44  20.6  97.9   22.4  48.3  174.
+##  9 female BBall  4.3    8.9  41.1  13.5    41  22.6  75.1   18.0  54.6  171.
+## 10 female BBall  4.51   4.4  41.6  12.7    44  19.4  65.1   15.1  53.4  180.
+## # … with 192 more rows, and 1 more variable: Wt <dbl>
 ```
 
 
 ```r
 ais_wide <-
   ais_tibble %>%
-  select(Sex, Hg) %>%
+  dplyr::select(c(Sex, Hg)) %>%
   group_by(Sex) %>%
   dplyr::mutate(row = row_number()) %>%
   tidyr::pivot_wider(names_from = Sex, 
@@ -1699,7 +1711,7 @@ chol_wide <-
   chol_tibble %>%
   pivot_wider(names_from = "day", values_from = "cholest") %>%
   dplyr::rename("day2" = "2", "day4" = "4") %>%
-  select(-'14', -"NA") %>%
+  dplyr::select(-'14', -"NA") %>%
   na.omit()
 
 chol_wide
@@ -1726,7 +1738,7 @@ chol_wide
 ```r
 chol_long <-
   chol_wide %>%
-  select(-'patient') %>%
+  dplyr::select(-'patient') %>%
   pivot_longer(!group, names_to = "day", values_to = "chol")
 
 chol_long

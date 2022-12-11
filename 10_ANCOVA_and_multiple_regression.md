@@ -1,7 +1,7 @@
 ---
 title: "10. ANCOVAs and multiple regression"
 author: "jsg"
-date: "Last compiled on 11 December, 2022 17:38"
+date: "Last compiled on 11 December, 2022 17:53"
 output:
   html_document:
     toc: true
