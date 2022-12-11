@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="jsg" />
+
+
+<title>All about the Bayes</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="ex3_introduction_to_hypothesis_testing_via_binomial_test.html">Lesson 3</a>
+</li>
+<li>
+  <a href="ex6_continuous_tests_for_two_populations.html">Lesson 6</a>
+</li>
+<li>
+  <a href="10_ANCOVA_and_multiple_regression.html">Lesson 10</a>
+</li>
+<li>
+  <a href="11_LM_Extensions.html">Lesson 11</a>
+</li>
+<li>
+  <a href="12_Bayes_standalone.html">Lesson 12</a>
+</li>
+<li>
+  <a href="13_Multivariate_methods.html">Lesson 13</a>
+</li>
+<li>
+  <a href="2022_spring_final_78002.html">Spring 2022 Final</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">All about the Bayes</h1>
+<h3 class="subtitle">Bayes standalone code</h3>
+<h4 class="author">jsg</h4>
+<h4 class="date">Last compiled on 11 December, 2022 17:13</h4>
+
+</div>
+
+
+<p>Before doing this, review the lecture set slides from <a
+href="https://sites.google.com/view/biostats/lessons/intro-to-bayesian-statistics"
+class="uri">https://sites.google.com/view/biostats/lessons/intro-to-bayesian-statistics</a>
+and the <strong>bayes_standalone.R</strong> script in the lecture files
+folder of the <a
+href="https://github.com/jsgosnell/CUNY-BioStats">CUNY-BioStats github
+repository</a>. Make sure you are comfortable with null and alternative
+hypotheses for all examples.</p>
+<p>Remember you should</p>
+<ul>
+<li>add code chunks by clicking the <em>Insert Chunk</em> button on the
+toolbar or by pressing <em>Ctrl+Alt+I</em> to answer the questions!</li>
+<li><strong>knit</strong> your file to produce a markdown version that
+you can see!</li>
+<li>save your work often
+<ul>
+<li><strong>commit</strong> it via git!</li>
+<li><strong>push</strong> updates to github</li>
+</ul></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li><p>Make sure you can describe the main differences between
+Frequentist, Likelihood, and Bayesian approaches.</p></li>
+<li><p>Review the video we watched in class to make sure you understand
+the Bayesian connection. You can also read a related post @ <a
+href="https://brilliant.org/wiki/monty-hall-problem/"
+class="uri">https://brilliant.org/wiki/monty-hall-problem/</a>.</p></li>
+</ol>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=mhlc7peGlGg"
+class="uri">https://www.youtube.com/watch?v=mhlc7peGlGg</a></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>I’ve shared a script in R that lets you test the Monty Hall idea
+(like in the video!). It’s the chivers_monty_hall_script from the <a
+href="https://github.com/jsgosnell/CUNY-BioStats/tree/master/code_examples">code_examples
+folder</a>code_examples<br />
+on github. For this question, its easiest to just source the main file
+and see what happens. When you source a script, it is run in R without
+showing any console output (but graphs and objects are still produced!).
+Try <em>source(“<a
+href="https://raw.githubusercontent.com/jsgosnell/CUNY-BioStats/master/code_examples/chivers_monty_hall_script.R"
+class="uri">https://raw.githubusercontent.com/jsgosnell/CUNY-BioStats/master/code_examples/chivers_monty_hall_script.R</a>”)</em>
+, then test out the idea here using the following functions which
+calculate outcomes under each strategy.</li>
+</ol>
+<ul>
+<li>monty(strat=“stay”, print_games=F)</li>
+<li>monty(strat=“switch”, print_games=F)</li>
+<li>monty(strat=“random”, print_games=F)</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Setup the Monty Hall problem as probabilities and convince
+yourself how it works. You may want to remember to think about prior and
+new information (likelihoods).</p></li>
+<li><p>Run the frog analysis (14/18 frogs are right-pawed) assuming an
+“uninformed” prior (is this really possible?) and priors that predict
+frogs are likely to be left- or right-handed (look under Bayesian
+analysis in script for functions such as triplot and qbeta). Vary both
+the relationship among the shape variables and the magnitude (weighting)
+to understand how the prior impacts your posterior.</p></li>
+<li><p>Using data from Australian athletes (<a
+href="http://www.statsci.org/data/oz/ais.html"
+class="uri">http://www.statsci.org/data/oz/ais.html</a> for details),
+determine if the average male training at the Australian Institute of
+Sport differs in weight from the average Australian male (85.9 kg) using
+bootstrapping techniques and a Bayesian approach. For the Bayesian
+approach, compare approaches that give the null more and less
+weight.</p></li>
+</ol>
+<p>Data at</p>
+<pre class="r"><code>sport &lt;- read.table(&quot;http://www.statsci.org/data/oz/ais.txt&quot;, header = T, 
+                    stringsAsFactors = T)</code></pre>
+<p>You can source the bootstrapjsg function using</p>
+<pre class="r"><code>source(&quot;https://raw.githubusercontent.com/jsgosnell/CUNY-BioStats/master/code_examples/bootstrapjsg.R&quot;)</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>Data on plant heights (in cm) for plants grown with a new and old
+formulation of fertilizer can be found at</li>
+</ol>
+<p><a
+href="https://raw.githubusercontent.com/jsgosnell/CUNY-BioStats/master/datasets/fertilizer.csv"
+class="uri">https://raw.githubusercontent.com/jsgosnell/CUNY-BioStats/master/datasets/fertilizer.csv</a></p>
+<p>Use the data to test the hypothesis that there is no difference in
+mean plant heights for the two groups A) Using frequentist methods B)
+Using Bayesian approaches.</p>
+<p>8.Develop a Bayesian model to determine if sepal width (from the iris
+dataset in R) differs among populations.</p>
+<ul>
+<li>compare models that parameterize each population as different vs one
+that only examines difference between I. setosa and other species.
+<ul>
+<li>making a new dummy variable is one way to do this!</li>
+</ul></li>
+</ul>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

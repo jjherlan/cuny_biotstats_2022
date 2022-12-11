@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="jsg" />
+
+
+<title>10. ANCOVAs and multiple regression</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="ex3_introduction_to_hypothesis_testing_via_binomial_test.html">Lesson 3</a>
+</li>
+<li>
+  <a href="ex6_continuous_tests_for_two_populations.html">Lesson 6</a>
+</li>
+<li>
+  <a href="10_ANCOVA_and_multiple_regression.html">Lesson 10</a>
+</li>
+<li>
+  <a href="11_LM_Extensions.html">Lesson 11</a>
+</li>
+<li>
+  <a href="12_Bayes_standalone.html">Lesson 12</a>
+</li>
+<li>
+  <a href="13_Multivariate_methods.html">Lesson 13</a>
+</li>
+<li>
+  <a href="2022_spring_final_78002.html">Spring 2022 Final</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">10. ANCOVAs and multiple regression</h1>
+<h4 class="author">jsg</h4>
+<h4 class="date">Last compiled on 11 December, 2022 17:28</h4>
+
+</div>
+
+
+<pre class="r"><code>require(tidyverse)</code></pre>
+<pre><code>## Loading required package: tidyverse</code></pre>
+<pre><code>## ── Attaching packages ───── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
+## ✔ readr   2.1.3      ✔ forcats 0.5.2</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## ── Conflicts ──────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>require(car)</code></pre>
+<pre><code>## Loading required package: car</code></pre>
+<pre><code>## Warning: package &#39;car&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## Loading required package: carData
+## 
+## Attaching package: &#39;car&#39;
+## 
+## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     recode
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     some</code></pre>
+<pre class="r"><code>require(MASS)</code></pre>
+<pre><code>## Loading required package: MASS
+## 
+## Attaching package: &#39;MASS&#39;
+## 
+## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre class="r"><code>require(MuMIn)</code></pre>
+<pre><code>## Loading required package: MuMIn</code></pre>
+<pre><code>## Warning: package &#39;MuMIn&#39; was built under R version 4.2.2</code></pre>
+<p>Before doing this, review the ** Combining Multiple Explanatory
+Variables in Linear Models** lecture set slides from <a
+href="https://sites.google.com/view/biostats/lessons/ancova-and-multiple-regression"
+class="uri">https://sites.google.com/view/biostats/lessons/ancova-and-multiple-regression</a>
+and the <strong>10_ANCOVA_and_Regression.R</strong> script in the
+lecture files folder of the <a
+href="https://github.com/jsgosnell/CUNY-BioStats">CUNY-BioStats github
+repository</a>. Make sure you are comfortable with null and alternative
+hypotheses and appropriate plots for all examples.</p>
+<p>Remember you should</p>
+<ul>
+<li>add code chunks by clicking the <em>Insert Chunk</em> button on the
+toolbar or by pressing <em>Ctrl+Alt+I</em> to answer the questions!</li>
+<li><strong>knit</strong> your file to produce a markdown version that
+you can see!</li>
+<li>save your work often
+<ul>
+<li><strong>commit</strong> it via git!</li>
+<li><strong>push</strong> updates to github</li>
+</ul></li>
+</ul>
+<div id="example" class="section level2">
+<h2>Example</h2>
+<p>Following the iris example from class</p>
+<pre class="r"><code>set.seed(13)
+iris_example_species &lt;-data.frame(
+  Species = c(rep(&quot;x&quot;,25), rep(&quot;y&quot;, 25), rep(&quot;z&quot;, 25)),
+  Sepal_Length = runif(75,2,4 ),
+  #no difference based on species or sepal length
+  Petal_no_impacts = runif (75, 4, 6))
+#no difference based on species
+iris_example_species$Petal_no_impact_species &lt;- 
+  iris_example_species$Sepal_Length * 2 + rnorm(75)
+#no impact of petal length
+iris_example_species$Petal_no_relationship &lt;-rnorm(75) +
+  c(rep(2,25), rep(3,25), rep(4,25))
+#impact of species and petal length but no interaction
+iris_example_species$Petal_no_interaction &lt;- 
+  iris_example_species$Sepal_Length * 2 + rnorm(75) +
+  c(rep(2,25), rep(3,25), rep(4,25))
+#impact of species and petal length with interaction
+iris_example_species$Petal_interaction &lt;- 
+  iris_example_species$Sepal_Length * c(rep(-2, 25),rep(2,25), rep(5,25)) + 
+  c(rep(2,25), rep(3,25), rep(4,25)) + rnorm(75)</code></pre>
+<p>Plot the data</p>
+<pre class="r"><code>library(ggplot2)
+ggplot(iris_example_species, aes(x = Sepal_Length, y = Petal_interaction, color = Species)) +
+  geom_point(size = 3)+
+  xlab(&quot;Sepal Length&quot;) +
+  ylab(&quot;Petal Length&quot;) +
+  ggtitle(&quot;Impact of Sepal Length and Species on Petal Length&quot;) +
+  theme(axis.title.x = element_text(face=&quot;bold&quot;, size=28), 
+        axis.title.y = element_text(face=&quot;bold&quot;, size=28), 
+        axis.text.y  = element_text(size=20),
+        axis.text.x  = element_text(size=20), 
+        legend.text =element_text(size=20),
+        legend.title = element_text(size=20, face=&quot;bold&quot;),
+        plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=32))</code></pre>
+<p><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-3-1.png" /><!-- --></p>
+<p>Note the impact of sepal length appears to depend on species.</p>
+<pre class="r"><code>library(car)
+Anova(lm(Petal_interaction ~ Sepal_Length * Species, iris_example_species), 
+      type = &quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: Petal_interaction
+##                       Sum Sq Df F value    Pr(&gt;F)    
+## (Intercept)            2.096  1  1.6503    0.2032    
+## Sepal_Length          28.875  1 22.7307 1.001e-05 ***
+## Species                2.920  2  1.1494    0.3228    
+## Sepal_Length:Species 159.284  2 62.6954 3.027e-16 ***
+## Residuals             87.651 69                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Interaction is significant, so follow up for each species. this ends
+in regression!</p>
+<pre class="r"><code>summary(lm(Petal_interaction ~ Sepal_Length, 
+         iris_example_species[iris_example_species$Species == &quot;x&quot;,]))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Petal_interaction ~ Sepal_Length, data = iris_example_species[iris_example_species$Species == 
+##     &quot;x&quot;, ])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.1788 -0.9693  0.2359  0.5302  1.6908 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    1.5724     1.1058   1.422    0.168    
+## Sepal_Length  -1.8824     0.3567  -5.277 2.35e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.018 on 23 degrees of freedom
+## Multiple R-squared:  0.5477, Adjusted R-squared:  0.528 
+## F-statistic: 27.85 on 1 and 23 DF,  p-value: 2.35e-05</code></pre>
+<p>Significant negative relationship for species x.</p>
+<pre class="r"><code>summary(lm(Petal_interaction ~ Sepal_Length, 
+           iris_example_species[iris_example_species$Species == &quot;y&quot;,]))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Petal_interaction ~ Sepal_Length, data = iris_example_species[iris_example_species$Species == 
+##     &quot;y&quot;, ])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.4904 -0.7587  0.2401  0.8115  1.3829 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    3.7147     1.2584   2.952  0.00715 ** 
+## Sepal_Length   1.8307     0.4127   4.436  0.00019 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.142 on 23 degrees of freedom
+## Multiple R-squared:  0.4611, Adjusted R-squared:  0.4376 
+## F-statistic: 19.68 on 1 and 23 DF,  p-value: 0.00019</code></pre>
+<p>Positive relationship for species y</p>
+<pre class="r"><code>summary(lm(Petal_interaction ~ Sepal_Length, 
+           iris_example_species[iris_example_species$Species == &quot;z&quot;,]))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Petal_interaction ~ Sepal_Length, data = iris_example_species[iris_example_species$Species == 
+##     &quot;z&quot;, ])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.4143 -0.5861 -0.1689  0.7747  3.1415 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    4.0916     1.5034   2.722   0.0122 *  
+## Sepal_Length   5.1553     0.5402   9.543 1.83e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.213 on 23 degrees of freedom
+## Multiple R-squared:  0.7984, Adjusted R-squared:  0.7896 
+## F-statistic: 91.07 on 1 and 23 DF,  p-value: 1.834e-09</code></pre>
+<p>and z!</p>
+</div>
+<div id="practice" class="section level2">
+<h2>Practice</h2>
+<div id="section" class="section level3">
+<h3>1</h3>
+<ol style="list-style-type: decimal">
+<li>Data on FEV (forced expiratory volume), a measure of lung function,
+can be found at</li>
+</ol>
+<p><a href="http://www.statsci.org/data/general/fev.txt"
+class="uri">http://www.statsci.org/data/general/fev.txt</a></p>
+<p>More information on the dataset is available at</p>
+<p><a href="http://www.statsci.org/data/general/fev.html"
+class="uri">http://www.statsci.org/data/general/fev.html</a>.</p>
+<p>Does the impact of age on FEV differ among genders? Consider how your
+answer to this differs from the previous assignment!</p>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;D:/cuny_biotstats_2022&quot;</code></pre>
+<pre class="r"><code>fev &lt;- read.csv(file = &#39;fev.csv&#39;) %&gt;%
+  as_tibble()</code></pre>
+<pre class="r"><code>fev</code></pre>
+<pre><code>## # A tibble: 654 × 6
+##       ID   Age   FEV Height Sex    Smoker
+##    &lt;int&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
+##  1   301     9  1.71   57   Female Non   
+##  2   451     8  1.72   67.5 Female Non   
+##  3   501     7  1.72   54.5 Female Non   
+##  4   642     9  1.56   53   Male   Non   
+##  5   901     9  1.90   57   Male   Non   
+##  6  1701     8  2.34   61   Female Non   
+##  7  1752     6  1.92   58   Female Non   
+##  8  1753     6  1.42   56   Female Non   
+##  9  1901     8  1.99   58.5 Female Non   
+## 10  1951     9  1.94   60   Female Non   
+## # … with 644 more rows</code></pre>
+<pre class="r"><code>ggplot(fev, aes(x = Age, y = FEV, color = Sex)) +
+  geom_point(size = 1.5)+
+  xlab(&quot;Age&quot;) +
+  ylab(&quot;FEV&quot;) +
+  ggtitle(&quot;Impact of age age on FEV differ among genders&quot;) +
+  theme(axis.title.x = element_text(face = &quot;bold&quot;, size = 12), 
+        axis.title.y = element_text(face = &quot;bold&quot;, size = 12), 
+        axis.text.y  = element_text(size = 10),
+        axis.text.x  = element_text(size = 10), 
+        legend.text =element_text(size = 10),
+        legend.title = element_text(size = 10, face= &quot;bold&quot;),
+        plot.title = element_text(hjust = 0.5, face= &quot;bold&quot;, size = 12))</code></pre>
+<p><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-11-1.png" /><!-- --></p>
+<pre class="r"><code>fev1.lm &lt;- lm(FEV ~ Age * Sex, data = fev)</code></pre>
+<pre class="r"><code>c &lt;- coef(lm(FEV ~ Age * Sex, data = fev))</code></pre>
+<pre class="r"><code>c</code></pre>
+<pre><code>## (Intercept)         Age     SexMale Age:SexMale 
+##   0.8494671   0.1627289  -0.7758666   0.1107487</code></pre>
+<p>Write out the fitted regression equation:</p>
+<p>FEV = 0.8494671 + 0.1627289(Age) - 0.775866 (Sex - Male)</p>
+<pre class="r"><code>summary(fev1.lm)$coefficients</code></pre>
+<pre><code>##               Estimate  Std. Error   t value     Pr(&gt;|t|)
+## (Intercept)  0.8494671 0.102199484  8.311853 5.506108e-16
+## Age          0.1627289 0.009952211 16.351029 1.359667e-50
+## SexMale     -0.7758666 0.142745482 -5.435314 7.744955e-08
+## Age:SexMale  0.1107487 0.013786032  8.033401 4.467410e-15</code></pre>
+<pre class="r"><code># View p-value for points variable
+
+#summary(fev1.lm)$coefficients[&quot;points&quot;, &quot;Pr(&gt;|t|)&quot;]</code></pre>
+<pre class="r"><code>summary(fev1.lm)$coefficients[, &quot;Pr(&gt;|t|)&quot;]</code></pre>
+<pre><code>##  (Intercept)          Age      SexMale  Age:SexMale 
+## 5.506108e-16 1.359667e-50 7.744955e-08 4.467410e-15</code></pre>
+<pre class="r"><code>coef(summary(fev1.lm))[, c(&quot;t value&quot;,&quot;Pr(&gt;|t|)&quot;)]</code></pre>
+<pre><code>##               t value     Pr(&gt;|t|)
+## (Intercept)  8.311853 5.506108e-16
+## Age         16.351029 1.359667e-50
+## SexMale     -5.435314 7.744955e-08
+## Age:SexMale  8.033401 4.467410e-15</code></pre>
+<pre class="r"><code>summary(fev1.lm)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = FEV ~ Age * Sex, data = fev)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.64072 -0.34337 -0.04934  0.33206  1.86867 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.849467   0.102199   8.312 5.51e-16 ***
+## Age          0.162729   0.009952  16.351  &lt; 2e-16 ***
+## SexMale     -0.775867   0.142745  -5.435 7.74e-08 ***
+## Age:SexMale  0.110749   0.013786   8.033 4.47e-15 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5196 on 650 degrees of freedom
+## Multiple R-squared:  0.6425, Adjusted R-squared:  0.6408 
+## F-statistic: 389.4 on 3 and 650 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>Anova(fev1.lm, Type = &quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type II tests)
+## 
+## Response: FEV
+##            Sum Sq  Df  F value    Pr(&gt;F)    
+## Age       276.661   1 1024.615 &lt; 2.2e-16 ***
+## Sex        17.066   1   63.203 8.270e-15 ***
+## Age:Sex    17.426   1   64.535 4.467e-15 ***
+## Residuals 175.509 650                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>Anova(lm(FEV ~ Age * Sex, fev), 
+      type = &quot;III&quot;) </code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: FEV
+##              Sum Sq  Df F value    Pr(&gt;F)    
+## (Intercept)  18.654   1  69.087 5.506e-16 ***
+## Age          72.190   1 267.356 &lt; 2.2e-16 ***
+## Sex           7.977   1  29.543 7.745e-08 ***
+## Age:Sex      17.426   1  64.535 4.467e-15 ***
+## Residuals   175.509 650                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Interaction is significant, so follow up for male and female. This
+ends in regression!</p>
+<pre class="r"><code>summary(lm(FEV ~ Age, 
+         fev[fev$Sex == &quot;Male&quot;,]))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = FEV ~ Age, data = fev[fev$Sex == &quot;Male&quot;, ])
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.64072 -0.37752 -0.05318  0.36893  1.86867 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   0.0736     0.1128   0.653    0.514    
+## Age           0.2735     0.0108  25.329   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5881 on 334 degrees of freedom
+## Multiple R-squared:  0.6576, Adjusted R-squared:  0.6566 
+## F-statistic: 641.6 on 1 and 334 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>summary(lm(FEV ~ Age, 
+         fev[fev$Sex == &quot;Female&quot;,]))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = FEV ~ Age, data = fev[fev$Sex == &quot;Female&quot;, ])
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.09240 -0.28991 -0.03762  0.28749  1.13451 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 0.849467   0.085695   9.913   &lt;2e-16 ***
+## Age         0.162729   0.008345  19.500   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4357 on 316 degrees of freedom
+## Multiple R-squared:  0.5461, Adjusted R-squared:  0.5447 
+## F-statistic: 380.3 on 1 and 316 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="section-1" class="section level3">
+<h3>2</h3>
+<ol start="2" style="list-style-type: decimal">
+<li>Data on home gas consumption at various temperatures before and
+after new insulation was installed has been collected @</li>
+</ol>
+<p><a href="http://www.statsci.org/data/general/insulgas.txt"
+class="uri">http://www.statsci.org/data/general/insulgas.txt</a></p>
+<p>More information on the data is available @</p>
+<p><a href="http://www.statsci.org/data/general/insulgas.html"
+class="uri">http://www.statsci.org/data/general/insulgas.html</a></p>
+<p>Is there any relationship between these factors? How would you test
+this, and what type of plot would you produce to accompany your
+analysis?</p>
+<pre class="r"><code>insulgas &lt;- read.csv(file = &#39;insulgas.csv&#39;) %&gt;%
+  as_tibble()</code></pre>
+<pre class="r"><code>insulgas</code></pre>
+<pre><code>## # A tibble: 44 × 3
+##    Insulate  Temp   Gas
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1 Before    -0.8   7.2
+##  2 Before    -0.7   6.9
+##  3 Before     0.4   6.4
+##  4 Before     2.5   6  
+##  5 Before     2.9   5.8
+##  6 Before     3.2   5.8
+##  7 Before     3.6   5.6
+##  8 Before     3.9   4.7
+##  9 Before     4.2   5.8
+## 10 Before     4.3   5.2
+## # … with 34 more rows</code></pre>
+<pre class="r"><code>ggplot(insulgas, aes(x = Temp, y = Gas, color = Insulate)) +
+  geom_point(size = 1.5)+
+  ylab(expression(paste(&quot;Gas (1000 &quot;,ft^3, &quot;)&quot;)))+
+  xlab(expression(paste(&quot;Temperature (&quot;, degree~C, &quot;)&quot;)))+
+  geom_smooth(method = &quot;lm&quot;, se = F) +
+  #xlab(&quot;Temp&quot;) +
+  #ylab(&quot;Gas&quot;) +
+  ggtitle(&quot;Impact of Temp on Gas before vs. after Insulate&quot;) +
+  theme(axis.title.x = element_text(face = &quot;bold&quot;, size = 12), 
+        axis.title.y = element_text(face = &quot;bold&quot;, size = 12), 
+        axis.text.y  = element_text(size = 10),
+        axis.text.x  = element_text(size = 10), 
+        legend.text =element_text(size = 10),
+        legend.title = element_text(size = 10, face= &quot;bold&quot;),
+        plot.title = element_text(hjust = 0.5, face= &quot;bold&quot;, size = 12))</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-26-1.png" /><!-- --></p>
+<pre class="r"><code>insulgas1.lm &lt;- lm(Gas ~ Temp * Insulate, data = insulgas)</code></pre>
+<pre class="r"><code>insulgas.c &lt;- coef(lm(Gas ~ Temp * Insulate, data = insulgas))</code></pre>
+<pre class="r"><code>insulgas.c</code></pre>
+<pre><code>##         (Intercept)                Temp      InsulateBefore Temp:InsulateBefore 
+##           4.5906175          -0.2496268           2.2632102          -0.1436120</code></pre>
+<p>Write out the fitted regression equation:</p>
+<p>FEV = 4.5906175 + 2.2632102(Before) - 0.1436120 (Temp - Before)</p>
+<pre class="r"><code>summary(insulgas1.lm)$coefficients</code></pre>
+<pre><code>##                       Estimate Std. Error   t value     Pr(&gt;|t|)
+## (Intercept)          4.5906175 0.13015969 35.269120 9.445821e-32
+## Temp                -0.2496268 0.04039318 -6.179924 2.639691e-07
+## InsulateBefore       2.2632102 0.17277759 13.098980 4.708609e-16
+## Temp:InsulateBefore -0.1436120 0.04455066 -3.223567 2.521247e-03</code></pre>
+<pre class="r"><code>summary(insulgas1.lm)$coefficients[, &quot;Pr(&gt;|t|)&quot;]</code></pre>
+<pre><code>##         (Intercept)                Temp      InsulateBefore Temp:InsulateBefore 
+##        9.445821e-32        2.639691e-07        4.708609e-16        2.521247e-03</code></pre>
+<pre class="r"><code>coef(summary(insulgas1.lm))[, c(&quot;t value&quot;,&quot;Pr(&gt;|t|)&quot;)]</code></pre>
+<pre><code>##                       t value     Pr(&gt;|t|)
+## (Intercept)         35.269120 9.445821e-32
+## Temp                -6.179924 2.639691e-07
+## InsulateBefore      13.098980 4.708609e-16
+## Temp:InsulateBefore -3.223567 2.521247e-03</code></pre>
+<pre class="r"><code>summary(insulgas1.lm)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Gas ~ Temp * Insulate, data = insulgas)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.62020 -0.18011  0.03405  0.16379  0.59778 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          4.59062    0.13016  35.269  &lt; 2e-16 ***
+## Temp                -0.24963    0.04039  -6.180 2.64e-07 ***
+## InsulateBefore       2.26321    0.17278  13.099 4.71e-16 ***
+## Temp:InsulateBefore -0.14361    0.04455  -3.224  0.00252 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.2699 on 40 degrees of freedom
+## Multiple R-squared:  0.9359, Adjusted R-squared:  0.9311 
+## F-statistic: 194.8 on 3 and 40 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><em>There is a significant relationship between insulation type
+(before/after) and temperature on gas usage (F<sub>1,40</sub>=10.39,
+p&lt;.01). Graphical analysis indicates the old (before) insulation led
+to higher overall gas usage and gas usage increased faster with colder
+temperature compared to the new insulation. Statistical analysis bears
+this out</em></p>
+<pre class="r"><code>Anova(insulgas1.lm, Type = &quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type II tests)
+## 
+## Response: Gas
+##               Sum Sq Df F value    Pr(&gt;F)    
+## Temp          33.931  1 465.676 &lt; 2.2e-16 ***
+## Insulate      26.906  1 369.266 &lt; 2.2e-16 ***
+## Temp:Insulate  0.757  1  10.391  0.002521 ** 
+## Residuals      2.915 40                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>Anova(lm(Gas ~ Temp * Insulate, insulgas), 
+      type = &quot;III&quot;) </code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: Gas
+##               Sum Sq Df  F value    Pr(&gt;F)    
+## (Intercept)   90.636  1 1243.911 &lt; 2.2e-16 ***
+## Temp           2.783  1   38.191 2.640e-07 ***
+## Insulate      12.502  1  171.583 4.709e-16 ***
+## Temp:Insulate  0.757  1   10.391  0.002521 ** 
+## Residuals      2.915 40                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Interaction is significant, so follow up for male and female. This
+ends in regression!</p>
+<pre class="r"><code>before &lt;- lm(Gas ~ Temp * Insulate, insulgas)</code></pre>
+<pre class="r"><code>plot(before)</code></pre>
+<p><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-37-1.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-37-2.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-37-3.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-37-4.png" /><!-- --></p>
+<pre class="r"><code>summary(lm(Gas ~ Temp, 
+         insulgas[insulgas$Insulate == &quot;Before&quot;,]))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Gas ~ Temp, data = insulgas[insulgas$Insulate == 
+##     &quot;Before&quot;, ])
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.62020 -0.19947  0.06068  0.16770  0.59778 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  6.85383    0.11842   57.88   &lt;2e-16 ***
+## Temp        -0.39324    0.01959  -20.08   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.2813 on 24 degrees of freedom
+## Multiple R-squared:  0.9438, Adjusted R-squared:  0.9415 
+## F-statistic: 403.1 on 1 and 24 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>summary(lm(Gas ~ Temp, 
+         insulgas[insulgas$Insulate == &quot;After&quot;,]))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Gas ~ Temp, data = insulgas[insulgas$Insulate == 
+##     &quot;After&quot;, ])
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.61677 -0.03594  0.03300  0.10180  0.35901 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  4.59062    0.12145  37.799  &lt; 2e-16 ***
+## Temp        -0.24963    0.03769  -6.623 5.86e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.2519 on 16 degrees of freedom
+## Multiple R-squared:  0.7327, Adjusted R-squared:  0.716 
+## F-statistic: 43.87 on 1 and 16 DF,  p-value: 5.857e-06</code></pre>
+<p>Look at the <code>Estimate</code> column for each model to get the
+slope of the line.</p>
+<p><em>There is a significant relationship between gas usage and
+temperature for old and new insulation homes. However, the old
+insulation led to using 400 ft<sup>3</sup> more gas per week to heat the
+house with every degree drop in temperature, while the new insulation
+leads to a increase of only250 ft<sup>3</sup> more gas per week with
+each degree drop.</em></p>
+<pre class="r"><code>insulgas_summary1 &lt;-
+as_tibble(insulgas) %&gt;%
+  mutate_at(vars(Insulate), factor) %&gt;%
+  group_by(Insulate) %&gt;%
+  summarise(temp_mean = mean(Temp),
+            temp_sd = sd(Temp),
+            n = n(),
+            temp_se = temp_sd / sqrt(n)
+  )</code></pre>
+<pre class="r"><code>insulgas_summary1</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   Insulate temp_mean temp_sd     n temp_se
+##   &lt;fct&gt;        &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
+## 1 After         2.81    1.62    18   0.382
+## 2 Before        5.35    2.87    26   0.563</code></pre>
+<pre class="r"><code>insulgas.barplot1 &lt;- ggplot(insulgas_summary1, aes(x = Insulate, y = temp_mean, fill = Insulate)) +   
+  geom_bar(stat = &quot;identity&quot;, width = 0.75, color = &quot;#2b2b2b&quot;, linewidth = 0.50, alpha = 0.6) +
+  geom_linerange(aes(ymin = temp_mean - temp_se, ymax = temp_mean + temp_se), linewidth = 0.75) +
+  #ylab(expression(paste(&quot;Gas (1000 &quot;,ft^3, &quot;)&quot;)))+
+  #xlab(expression(paste(&quot;Temperature (&quot;, degree~C, &quot;)&quot;)))+
+  #geom_smooth(method = &quot;lm&quot;, se = F) +
+  scale_y_continuous(expression(paste(&quot;Temperature&quot;)), limits = c(0, 10)) + 
+  scale_x_discrete(expand = c(0, 1)
+                   #, 
+                   #labels = x_labels
+                   ) + 
+#  scale_fill_manual(breaks = c(&quot;North&quot;, &quot;West&quot;,
+#                               &quot;Southeast&quot;),
+#                    values = c(&quot;red&quot;, &quot;blue&quot;, 
+#                               &quot;green&quot;), 
+#                    labels = c(&quot;North&quot;, &quot;West&quot;,
+#                               &quot;Southeast&quot;)) +
+#  facet_wrap( ~ Insulate, labeller = as_labeller(label_names), dir = &quot;v&quot;, ncol = 1) + 
+  ggtitle(expression(paste(italic(&quot; Response Varibale: Temperature&quot;)))) +
+  #scale_y_log10(expression(paste(&quot;Colony Size (&quot;, cm^2, &quot;)&quot;), limits = c(0, 100000))) +
+  labs(x = NULL) +
+  theme(#strip.text = element_text(size = 10, color = &quot;black&quot;, hjust = 0.50),
+        #strip.background = element_rect(fill = &quot;#FFFFFF&quot;, color = NA),    
+        #panel.background = element_rect(fill = &quot;#FFFFFF&quot;, color = NA),
+        #panel.grid.major.x = element_blank(),
+        #panel.grid.minor.x = element_blank(),
+        #panel.grid.minor.y = element_blank(),
+        #panel.grid.major.y = element_line(color = &quot;#b2b2b2&quot;),
+        #panel.spacing.x = unit(1, &quot;cm&quot;),
+        #panel.spacing.y = unit(0.5, &quot;cm&quot;),
+        #panel.spacing = unit(1, &quot;lines&quot;),
+        axis.ticks = element_blank(),
+        #legend.position = &quot;top&quot;,
+        plot.title = element_text(size = 11),
+        axis.title.y = element_text(size = 11),
+        legend.title = element_blank()
+        )</code></pre>
+<pre class="r"><code>insulgas.barplot1 </code></pre>
+<p><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-43-1.png" /><!-- --></p>
+<pre class="r"><code>insulgas_summary2 &lt;-
+as_tibble(insulgas) %&gt;%
+  mutate_at(vars(Insulate), factor) %&gt;%
+  group_by(Insulate) %&gt;%
+  summarise(gas_mean = mean(Gas),
+            gas_sd = sd(Gas),
+            n = n(),
+            gas_se = gas_sd / sqrt(n)
+  )</code></pre>
+<pre class="r"><code>insulgas_summary2</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   Insulate gas_mean gas_sd     n gas_se
+##   &lt;fct&gt;       &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
+## 1 After        3.89  0.473    18  0.111
+## 2 Before       4.75  1.16     26  0.228</code></pre>
+<pre class="r"><code>insulgas.barplot2 &lt;- ggplot(insulgas_summary2, aes(x = Insulate, y = gas_mean, fill = Insulate)) +   
+  geom_bar(stat = &quot;identity&quot;, width = 0.75, color = &quot;#2b2b2b&quot;, linewidth = 0.50, alpha = 0.6) +
+  geom_linerange(aes(ymin = gas_mean - gas_se, ymax = gas_mean + gas_se), linewidth = 0.75) +
+  scale_y_continuous(expression(paste(&quot;Gas&quot;)), limits = c(0, 10)) + 
+  scale_x_discrete(expand = c(0, 1)
+                   #, 
+                   #labels = x_labels
+                   ) + 
+#  scale_fill_manual(breaks = c(&quot;North&quot;, &quot;West&quot;,
+#                               &quot;Southeast&quot;),
+#                    values = c(&quot;red&quot;, &quot;blue&quot;, 
+#                               &quot;green&quot;), 
+#                    labels = c(&quot;North&quot;, &quot;West&quot;,
+#                               &quot;Southeast&quot;)) +
+#  facet_wrap( ~ Insulate, labeller = as_labeller(label_names), dir = &quot;v&quot;, ncol = 1) + 
+  ggtitle(expression(paste(italic(&quot; Response Varibale: Gas&quot;)))) +
+  #scale_y_log10(expression(paste(&quot;Colony Size (&quot;, cm^2, &quot;)&quot;), limits = c(0, 100000))) +
+  labs(x = NULL) +
+  theme(#strip.text = element_text(size = 10, color = &quot;black&quot;, hjust = 0.50),
+        #strip.background = element_rect(fill = &quot;#FFFFFF&quot;, color = NA),    
+        #panel.background = element_rect(fill = &quot;#FFFFFF&quot;, color = NA),
+        #panel.grid.major.x = element_blank(),
+        #panel.grid.minor.x = element_blank(),
+        #panel.grid.minor.y = element_blank(),
+        #panel.grid.major.y = element_line(color = &quot;#b2b2b2&quot;),
+        #panel.spacing.x = unit(1, &quot;cm&quot;),
+        #panel.spacing.y = unit(0.5, &quot;cm&quot;),
+        #panel.spacing = unit(1, &quot;lines&quot;),
+        axis.ticks = element_blank(),
+        #legend.position = &quot;top&quot;,
+        plot.title = element_text(size = 11),
+        axis.title.y = element_text(size = 11),
+        legend.title = element_blank()
+        )</code></pre>
+<pre class="r"><code>insulgas.barplot2</code></pre>
+<p><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-47-1.png" /><!-- --></p>
+</div>
+<div id="section-2" class="section level3">
+<h3>3</h3>
+<ol start="3" style="list-style-type: decimal">
+<li>Data on the height, diameter, and volume of cherry trees was
+collected for use in developing an optimal model to predict timber
+volume. Data is available @</li>
+</ol>
+<p><a href="http://www.statsci.org/data/general/cherry.txt"
+class="uri">http://www.statsci.org/data/general/cherry.txt</a></p>
+<p>Use the data to justify an optimal model.</p>
+<pre class="r"><code>cherry &lt;- read.csv(file = &#39;cherry.csv&#39;) %&gt;%
+  as_tibble()</code></pre>
+<pre class="r"><code>cherry</code></pre>
+<pre><code>## # A tibble: 31 × 3
+##     Diam Height Volume
+##    &lt;dbl&gt;  &lt;int&gt;  &lt;dbl&gt;
+##  1   8.3     70   10.3
+##  2   8.6     65   10.3
+##  3   8.8     63   10.2
+##  4  10.5     72   16.4
+##  5  10.7     81   18.8
+##  6  10.8     83   19.7
+##  7  11       66   15.6
+##  8  11       75   18.2
+##  9  11.1     80   22.6
+## 10  11.2     75   19.9
+## # … with 21 more rows</code></pre>
+<p>Interaction</p>
+<pre class="r"><code>cherry.lm &lt;- lm(Volume ~ Height * Diam, data = cherry)</code></pre>
+<pre class="r"><code>plot(cherry.lm)</code></pre>
+<p><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-51-1.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-51-2.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-51-3.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-51-4.png" /><!-- --></p>
+<pre class="r"><code>summary(cherry.lm)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Volume ~ Height * Diam, data = cherry)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.5821 -1.0673  0.3026  1.5641  4.6649 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 69.39632   23.83575   2.911  0.00713 ** 
+## Height      -1.29708    0.30984  -4.186  0.00027 ***
+## Diam        -5.85585    1.92134  -3.048  0.00511 ** 
+## Height:Diam  0.13465    0.02438   5.524 7.48e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.709 on 27 degrees of freedom
+## Multiple R-squared:  0.9756, Adjusted R-squared:  0.9728 
+## F-statistic: 359.3 on 3 and 27 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>Anova(cherry.lm, Type = &quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type II tests)
+## 
+## Response: Volume
+##             Sum Sq Df F value    Pr(&gt;F)    
+## Height       102.4  1  13.956 0.0008867 ***
+## Diam        4783.0  1 651.965 &lt; 2.2e-16 ***
+## Height:Diam  223.8  1  30.512 7.484e-06 ***
+## Residuals    198.1 27                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>No interaction</p>
+<pre class="r"><code>cherry.lm2 &lt;- lm(Volume ~ Height + Diam, data = cherry)</code></pre>
+<pre class="r"><code>plot(cherry.lm2)</code></pre>
+<p><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-55-1.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-55-2.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-55-3.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-55-4.png" /><!-- --></p>
+<pre class="r"><code>summary(cherry.lm2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Volume ~ Height + Diam, data = cherry)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.4065 -2.6493 -0.2876  2.2003  8.4847 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -57.9877     8.6382  -6.713 2.75e-07 ***
+## Height        0.3393     0.1302   2.607   0.0145 *  
+## Diam          4.7082     0.2643  17.816  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.882 on 28 degrees of freedom
+## Multiple R-squared:  0.948,  Adjusted R-squared:  0.9442 
+## F-statistic:   255 on 2 and 28 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>Anova(cherry.lm2, Type = &quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type II tests)
+## 
+## Response: Volume
+##           Sum Sq Df  F value  Pr(&gt;F)    
+## Height     102.4  1   6.7943 0.01449 *  
+## Diam      4783.0  1 317.4129 &lt; 2e-16 ***
+## Residuals  421.9 28                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>stepAIC(cherry.lm)</code></pre>
+<pre><code>## Start:  AIC=65.49
+## Volume ~ Height * Diam
+## 
+##               Df Sum of Sq    RSS    AIC
+## &lt;none&gt;                     198.08 65.495
+## - Height:Diam  1    223.84 421.92 86.936</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Volume ~ Height * Diam, data = cherry)
+## 
+## Coefficients:
+## (Intercept)       Height         Diam  Height:Diam  
+##     69.3963      -1.2971      -5.8558       0.1347</code></pre>
+</div>
+<div id="section-3" class="section level3">
+<h3>4</h3>
+<ol start="4" style="list-style-type: decimal">
+<li>Over the course of five years, a professor asked students in his
+stats class to carry out a simple experiment. Students were asked to
+measure their pulse rate, run for one minute, then measure their pulse
+rate again. The students also filled out a questionnaire. Data
+include:</li>
+</ol>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Variable</th>
+<th align="center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Height</td>
+<td align="center">Height (cm)</td>
+</tr>
+<tr class="even">
+<td align="center">Weight</td>
+<td align="center">Weight (kg)</td>
+</tr>
+<tr class="odd">
+<td align="center">Age</td>
+<td align="center">Age (years)</td>
+</tr>
+<tr class="even">
+<td align="center">Gender</td>
+<td align="center">Sex (1 = male, 2 = female)</td>
+</tr>
+<tr class="odd">
+<td align="center">Smokes</td>
+<td align="center">Regular smoker? (1 = yes, 2 = no)</td>
+</tr>
+<tr class="even">
+<td align="center">Alcohol</td>
+<td align="center">Regular drinker? (1 = yes, 2 = no)</td>
+</tr>
+<tr class="odd">
+<td align="center">Exercise</td>
+<td align="center">Frequency of exercise (1 = high, 2 = moderate, 3 =
+low)</td>
+</tr>
+<tr class="even">
+<td align="center">Change</td>
+<td align="center">Percent change in pulse (pulse after experiment/pulse
+before experiment)</td>
+</tr>
+<tr class="odd">
+<td align="center">Year</td>
+<td align="center">Year of class (93 - 98)</td>
+</tr>
+</tbody>
+</table>
+<p>Using the available data (available at</p>
+<p><a
+href="https://docs.google.com/spreadsheets/d/e/2PACX-1vToN77M80enimQglwpFroooLzDtcQMh4qKbOuhbu-eVmU9buczh7nVV1BdI4T_ma-PfWUnQYmq-60RZ/pub?gid=942311716&amp;single=true&amp;output=csv"
+class="uri">https://docs.google.com/spreadsheets/d/e/2PACX-1vToN77M80enimQglwpFroooLzDtcQMh4qKbOuhbu-eVmU9buczh7nVV1BdI4T_ma-PfWUnQYmq-60RZ/pub?gid=942311716&amp;single=true&amp;output=csv</a>
+)</p>
+<p>determine the optimal subset of explanatory variables that should be
+used to predict change pulse rate (Change) (focusing on main effects
+only, no interactions) and explain your choice of methods. Interpret
+your results. Make sure you can explain any changes you needed to make
+to the dataset or steps you used in your analysis.</p>
+<pre class="r"><code>pulse &lt;- read.csv(file = &#39;pulse_class.csv&#39;) %&gt;%
+  as_tibble()</code></pre>
+<pre class="r"><code>pulse</code></pre>
+<pre><code>## # A tibble: 46 × 9
+##    Height Weight   Age Gender Smokes Alcohol Exercise  Year Change
+##     &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;  &lt;int&gt;  &lt;int&gt;   &lt;int&gt;    &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;
+##  1    179     58    19      2      2       1        2    93  0.829
+##  2    167     62    18      2      2       1        1    93  0.833
+##  3    184     74    22      1      2       1        3    93  0.808
+##  4    168     60    23      1      2       1        2    93  0.705
+##  5    170     75    20      1      2       1        1    93  0.158
+##  6    180     70    18      1      2       1        2    93  0.825
+##  7    140     50    34      2      2       2        3    93  0.4  
+##  8    177     74    18      2      2       2        2    93  0.371
+##  9    189     60    19      1      2       1        2    95  1.15 
+## 10    178     56    21      2      2       1        2    95  0.744
+## # … with 36 more rows</code></pre>
+<pre class="r"><code>pulse.tbl &lt;-
+  pulse %&gt;%
+  mutate_at(vars(Gender, Smokes, Alcohol, Exercise), factor)</code></pre>
+<pre class="r"><code>pulse.tbl</code></pre>
+<pre><code>## # A tibble: 46 × 9
+##    Height Weight   Age Gender Smokes Alcohol Exercise  Year Change
+##     &lt;int&gt;  &lt;dbl&gt; &lt;int&gt; &lt;fct&gt;  &lt;fct&gt;  &lt;fct&gt;   &lt;fct&gt;    &lt;int&gt;  &lt;dbl&gt;
+##  1    179     58    19 2      2      1       2           93  0.829
+##  2    167     62    18 2      2      1       1           93  0.833
+##  3    184     74    22 1      2      1       3           93  0.808
+##  4    168     60    23 1      2      1       2           93  0.705
+##  5    170     75    20 1      2      1       1           93  0.158
+##  6    180     70    18 1      2      1       2           93  0.825
+##  7    140     50    34 2      2      2       3           93  0.4  
+##  8    177     74    18 2      2      2       2           93  0.371
+##  9    189     60    19 1      2      1       2           95  1.15 
+## 10    178     56    21 2      2      1       2           95  0.744
+## # … with 36 more rows</code></pre>
+<pre class="r"><code>pulse.lm1 &lt;- lm(Change ~ Height + Weight + Age + Gender + Smokes + Alcohol + Exercise + Year, pulse.tbl)</code></pre>
+<pre class="r"><code>summary(pulse.lm1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Change ~ Height + Weight + Age + Gender + Smokes + 
+##     Alcohol + Exercise + Year, data = pulse.tbl)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.62704 -0.14035  0.03703  0.17032  0.96692 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -0.462261   3.352228  -0.138    0.891
+## Height       0.004829   0.003253   1.485    0.146
+## Weight       0.002053   0.004907   0.418    0.678
+## Age         -0.005816   0.019355  -0.300    0.766
+## Gender2      0.022711   0.133969   0.170    0.866
+## Smokes2     -0.053951   0.214708  -0.251    0.803
+## Alcohol2     0.201692   0.127637   1.580    0.123
+## Exercise2   -0.089464   0.153983  -0.581    0.565
+## Exercise3   -0.133686   0.170874  -0.782    0.439
+## Year         0.004014   0.032617   0.123    0.903
+## 
+## Residual standard error: 0.3335 on 36 degrees of freedom
+## Multiple R-squared:  0.1337, Adjusted R-squared:  -0.08292 
+## F-statistic: 0.6171 on 9 and 36 DF,  p-value: 0.7744</code></pre>
+<pre class="r"><code>pulse.lm2 &lt;- lm(Change ~ ., pulse.tbl)</code></pre>
+<pre class="r"><code>par(mfrow = c(2, 2))
+plot(pulse.lm1)</code></pre>
+<p><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-66-1.png" /><!-- --></p>
+<pre class="r"><code>summary(pulse.lm2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Change ~ ., data = pulse.tbl)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.62704 -0.14035  0.03703  0.17032  0.96692 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -0.462261   3.352228  -0.138    0.891
+## Height       0.004829   0.003253   1.485    0.146
+## Weight       0.002053   0.004907   0.418    0.678
+## Age         -0.005816   0.019355  -0.300    0.766
+## Gender2      0.022711   0.133969   0.170    0.866
+## Smokes2     -0.053951   0.214708  -0.251    0.803
+## Alcohol2     0.201692   0.127637   1.580    0.123
+## Exercise2   -0.089464   0.153983  -0.581    0.565
+## Exercise3   -0.133686   0.170874  -0.782    0.439
+## Year         0.004014   0.032617   0.123    0.903
+## 
+## Residual standard error: 0.3335 on 36 degrees of freedom
+## Multiple R-squared:  0.1337, Adjusted R-squared:  -0.08292 
+## F-statistic: 0.6171 on 9 and 36 DF,  p-value: 0.7744</code></pre>
+<pre class="r"><code>Anova(pulse.lm2, Type = &quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type II tests)
+## 
+## Response: Change
+##           Sum Sq Df F value Pr(&gt;F)
+## Height    0.2451  1  2.2039 0.1464
+## Weight    0.0195  1  0.1750 0.6781
+## Age       0.0100  1  0.0903 0.7656
+## Gender    0.0032  1  0.0287 0.8663
+## Smokes    0.0070  1  0.0631 0.8030
+## Alcohol   0.2777  1  2.4970 0.1228
+## Exercise  0.0681  2  0.3061 0.7382
+## Year      0.0017  1  0.0151 0.9027
+## Residuals 4.0042 36</code></pre>
+<pre class="r"><code>pulse_final &lt;- step(pulse.lm2)</code></pre>
+<pre><code>## Start:  AIC=-92.3
+## Change ~ Height + Weight + Age + Gender + Smokes + Alcohol + 
+##     Exercise + Year
+## 
+##            Df Sum of Sq    RSS     AIC
+## - Exercise  2  0.068089 4.0723 -95.524
+## - Year      1  0.001684 4.0059 -94.280
+## - Gender    1  0.003196 4.0074 -94.263
+## - Smokes    1  0.007023 4.0112 -94.219
+## - Age       1  0.010041 4.0143 -94.184
+## - Weight    1  0.019470 4.0237 -94.076
+## &lt;none&gt;                  4.0042 -92.300
+## - Height    1  0.245140 4.2494 -91.566
+## - Alcohol   1  0.277740 4.2820 -91.215
+## 
+## Step:  AIC=-95.52
+## Change ~ Height + Weight + Age + Gender + Smokes + Alcohol + 
+##     Year
+## 
+##           Df Sum of Sq    RSS     AIC
+## - Year     1  0.000084 4.0724 -97.523
+## - Gender   1  0.000259 4.0726 -97.521
+## - Smokes   1  0.001479 4.0738 -97.507
+## - Age      1  0.013292 4.0856 -97.374
+## - Weight   1  0.024961 4.0973 -97.243
+## &lt;none&gt;                 4.0723 -95.524
+## - Height   1  0.243036 4.3153 -94.857
+## - Alcohol  1  0.248335 4.3206 -94.801
+## 
+## Step:  AIC=-97.52
+## Change ~ Height + Weight + Age + Gender + Smokes + Alcohol
+## 
+##           Df Sum of Sq    RSS     AIC
+## - Gender   1  0.000260 4.0726 -99.520
+## - Smokes   1  0.001714 4.0741 -99.504
+## - Age      1  0.013888 4.0863 -99.366
+## - Weight   1  0.025500 4.0979 -99.236
+## &lt;none&gt;                 4.0724 -97.523
+## - Height   1  0.247312 4.3197 -96.811
+## - Alcohol  1  0.251305 4.3237 -96.768
+## 
+## Step:  AIC=-99.52
+## Change ~ Height + Weight + Age + Smokes + Alcohol
+## 
+##           Df Sum of Sq    RSS      AIC
+## - Smokes   1  0.001923 4.0746 -101.498
+## - Age      1  0.013777 4.0864 -101.365
+## - Weight   1  0.035710 4.1084 -101.118
+## &lt;none&gt;                 4.0726  -99.520
+## - Height   1  0.253293 4.3259  -98.745
+## - Alcohol  1  0.267203 4.3399  -98.597
+## 
+## Step:  AIC=-101.5
+## Change ~ Height + Weight + Age + Alcohol
+## 
+##           Df Sum of Sq    RSS     AIC
+## - Age      1  0.013324 4.0879 -103.35
+## - Weight   1  0.034915 4.1095 -103.11
+## &lt;none&gt;                 4.0746 -101.50
+## - Height   1  0.251418 4.3260 -100.74
+## - Alcohol  1  0.270349 4.3449 -100.54
+## 
+## Step:  AIC=-103.35
+## Change ~ Height + Weight + Alcohol
+## 
+##           Df Sum of Sq    RSS     AIC
+## - Weight   1  0.037859 4.1258 -104.92
+## &lt;none&gt;                 4.0879 -103.35
+## - Alcohol  1  0.257733 4.3456 -102.54
+## - Height   1  0.265875 4.3538 -102.45
+## 
+## Step:  AIC=-104.92
+## Change ~ Height + Alcohol
+## 
+##           Df Sum of Sq    RSS     AIC
+## &lt;none&gt;                 4.1258 -104.92
+## - Alcohol  1   0.25346 4.3792 -104.18
+## - Height   1   0.43164 4.5574 -102.35</code></pre>
+<pre class="r"><code>#consider assumptions
+plot(pulse_final)</code></pre>
+<p><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-70-1.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-70-2.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-70-3.png" /><!-- --><img
+src="10_ANCOVA_and_multiple_regression_files/figure-html/unnamed-chunk-70-4.png" /><!-- --></p>
+<pre class="r"><code>Anova(pulse_final, type = &quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: Change
+##             Sum Sq Df F value  Pr(&gt;F)  
+## (Intercept) 0.0434  1  0.4520 0.50500  
+## Height      0.4316  1  4.4987 0.03973 *
+## Alcohol     0.2535  1  2.6416 0.11141  
+## Residuals   4.1258 43                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary(pulse_final)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Change ~ Height + Alcohol, data = pulse.tbl)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.62511 -0.17315  0.05539  0.15239  1.01992 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) -0.318699   0.474060  -0.672   0.5050  
+## Height       0.005658   0.002668   2.121   0.0397 *
+## Alcohol2     0.173965   0.107035   1.625   0.1114  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3098 on 43 degrees of freedom
+## Multiple R-squared:  0.1074, Adjusted R-squared:  0.06585 
+## F-statistic: 2.586 on 2 and 43 DF,  p-value: 0.08699</code></pre>
+<pre class="r"><code>options(na.action = &quot;na.fail&quot;)
+auto &lt;- dredge(pulse.lm2)</code></pre>
+<pre><code>## Fixed term is &quot;(Intercept)&quot;</code></pre>
+<pre class="r"><code>write.csv(auto, &quot;dredge_output.csv&quot;, row.names = F)</code></pre>
+<pre><code>## Warning in !is.null(modif) &amp;&amp; modif %in% type2colname(column.types,
+## protectedcoltypes): &#39;length(x) = 14 &gt; 1&#39; in coercion to &#39;logical(1)&#39;</code></pre>
+<pre class="r"><code>options(na.action = &quot;na.omit&quot;)</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
