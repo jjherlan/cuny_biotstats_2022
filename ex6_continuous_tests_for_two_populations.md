@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 11 December, 2022 17:13"
+date: "Last compiled on 11 December, 2022 17:30"
 output:
   html_document:
     toc: true
@@ -14,26 +14,6 @@ output:
 
 ```r
 library(reshape)
-```
-
-```
-## 
-## Attaching package: 'reshape'
-```
-
-```
-## The following objects are masked from 'package:plyr':
-## 
-##     rename, round_any
-```
-
-```
-## The following object is masked from 'package:Matrix':
-## 
-##     expand
-```
-
-```r
 library(reshape2)
 ```
 
@@ -61,31 +41,28 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ───── tidyverse 1.3.2 ──
+## ── Attaching packages
+## ───────────────────────────────────────
+## tidyverse 1.3.2 ──
 ```
 
 ```
+## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
 ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
 ## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-## ✔ purrr   0.3.5      
-## ── Conflicts ──────── tidyverse_conflicts() ──
-## ✖ dplyr::arrange()   masks plyr::arrange()
-## ✖ purrr::compact()   masks plyr::compact()
-## ✖ dplyr::count()     masks plyr::count()
-## ✖ tidyr::expand()    masks reshape::expand(), Matrix::expand()
-## ✖ dplyr::failwith()  masks plyr::failwith()
-## ✖ dplyr::filter()    masks stats::filter()
-## ✖ dplyr::id()        masks plyr::id()
-## ✖ dplyr::lag()       masks stats::lag()
-## ✖ dplyr::mutate()    masks plyr::mutate()
-## ✖ tidyr::pack()      masks Matrix::pack()
-## ✖ dplyr::recode()    masks car::recode()
-## ✖ dplyr::rename()    masks reshape::rename(), plyr::rename()
-## ✖ purrr::some()      masks car::some()
-## ✖ dplyr::summarise() masks plyr::summarise()
-## ✖ dplyr::summarize() masks plyr::summarize()
-## ✖ tidyr::unpack()    masks Matrix::unpack()
+## ✔ readr   2.1.3      ✔ forcats 0.5.2
+```
+
+```
+## Warning: package 'ggplot2' was built under R version 4.2.2
+```
+
+```
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ tidyr::expand() masks reshape::expand()
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ✖ dplyr::rename() masks reshape::rename()
 ```
 
 ```r
@@ -98,6 +75,42 @@ packageVersion("dplyr")
 
 ```r
 require(Rmisc)
+```
+
+```
+## Loading required package: Rmisc
+## Loading required package: lattice
+## Loading required package: plyr
+```
+
+```
+## Warning: package 'plyr' was built under R version 4.2.2
+```
+
+```
+## ------------------------------------------------------------------------------
+## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)
+## ------------------------------------------------------------------------------
+## 
+## Attaching package: 'plyr'
+## 
+## The following objects are masked from 'package:dplyr':
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize
+## 
+## The following object is masked from 'package:purrr':
+## 
+##     compact
+## 
+## The following objects are masked from 'package:reshape':
+## 
+##     rename, round_any
+```
+
+```r
 require(BSDA)
 ```
 
@@ -105,10 +118,6 @@ require(BSDA)
 ## Loading required package: BSDA
 ## 
 ## Attaching package: 'BSDA'
-## 
-## The following objects are masked from 'package:carData':
-## 
-##     Vocab, Wool
 ## 
 ## The following object is masked from 'package:datasets':
 ## 
@@ -246,21 +255,15 @@ bootstrapjsg(drug.df$drugB, drug.df$DrugG)
 ```
 
 ```
-## The following object is masked from 'package:survival':
-## 
-##     aml
-```
-
-```
 ## The following object is masked from 'package:lattice':
 ## 
 ##     melanoma
 ```
 
 ```
-## The following object is masked from 'package:car':
+## The following object is masked from 'package:survival':
 ## 
-##     logit
+##     aml
 ```
 
 ```
@@ -270,7 +273,7 @@ bootstrapjsg(drug.df$drugB, drug.df$DrugG)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"      "8.33333333333333" 
+##                  "0.95" "% Confidence Interval"      "8.31666666666667" 
 ##                                                                         
 ##      "9.16666666666667"               "p-value"                     "0"
 ```
@@ -398,9 +401,9 @@ bootstrapjsg(fertilizer_wide$new, fertilizer_wide$old)
 ##                                                                       
 ##                             "0.95" "% Percentile Confidence Interval" 
 ##                                                                       
-##                           "1.7825"                 "7.43243739791513" 
+##                 "1.73787561250917"                           "7.5125" 
 ##                                                                       
-##                          "p-value"                           "0.0011"
+##                          "p-value"                            "8e-04"
 ```
 
 
@@ -509,9 +512,9 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
+##                  "0.95" "% Confidence Interval"     "-18.5555555555556" 
 ##                                                                         
-##     "-5.55555555555556"               "p-value"                 "1e-04"
+##     "-5.55555555555556"               "p-value"                     "0"
 ```
 
 #### 4
@@ -610,9 +613,9 @@ bootstrapjsg(meta_diff)
 
 ```
 ##                                                                         
-##                  "0.95" "% Confidence Interval"     "-18.3333333333333" 
+##                  "0.95" "% Confidence Interval"     "-18.2222222222222" 
 ##                                                                         
-##     "-5.44444444444444"               "p-value"                 "2e-04"
+##     "-5.33333333333333"               "p-value"                 "1e-04"
 ```
 
 
@@ -1088,8 +1091,7 @@ ais_histogram
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better
-## value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
 ![](ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
@@ -1109,8 +1111,7 @@ ais_histogram
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better
-## value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
 ![](ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-36-1.png)<!-- -->

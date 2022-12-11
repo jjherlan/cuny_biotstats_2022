@@ -308,17 +308,18 @@ wilcox.test(Hg ~ Sex, ais_tibble)
 **Binary test**
 
 ```{r}
-# SIGN.TEST()
+ais_tibble
 ```
 
 ```{r}
 ais_wide <-
   ais_tibble %>%
-  select(Sex, Hg) %>%
-  group_by(Sex) %>%
-  dplyr::mutate(row = row_number()) %>%
-  tidyr::pivot_wider(names_from = Sex, 
-              values_from = Hg)
+  select(c(Sex, Hg)) 
+#%>%
+#  group_by(Sex) %>%
+#  dplyr::mutate(row = row_number()) %>%
+#  tidyr::pivot_wider(names_from = Sex, 
+#              values_from = Hg)
 ```
 
 ```{r}

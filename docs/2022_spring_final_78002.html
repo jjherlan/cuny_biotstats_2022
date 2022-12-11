@@ -332,6 +332,18 @@ div.tocify {
   <a href="ex6_continuous_tests_for_two_populations.html">Lesson 6</a>
 </li>
 <li>
+  <a href="10_ANCOVA_and_multiple_regression.html">Lesson 10</a>
+</li>
+<li>
+  <a href="11_LM_Extensions.html">Lesson 11</a>
+</li>
+<li>
+  <a href="12_Bayes_standalone.html">Lesson 12</a>
+</li>
+<li>
+  <a href="13_Multivariate_methods.html">Lesson 13</a>
+</li>
+<li>
   <a href="2022_spring_final_78002.html">Spring 2022 Final</a>
 </li>
       </ul>
@@ -348,7 +360,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">2022 Spring 78002 final answers</h1>
 <h4 class="author">jsg</h4>
-<h4 class="date">Last compiled on 11 December, 2022 17:13</h4>
+<h4 class="date">Last compiled on 11 December, 2022 17:28</h4>
 
 </div>
 
@@ -366,11 +378,11 @@ exam or in the class and be reported to the Dean of Students.</p>
 <p>The exam is due by 12 PM on Monday, 5/16/2022.</p>
 <p>As often happens, your excellent statistical advice (provided via the
 78001 exam) has led to more calls for help (or just being given the data
-to anlayze). The below questions build on the earlier exam.</p>
+to analyze). The below questions build on the earlier exam.</p>
 </div>
 <div id="fear-effects" class="section level1">
 <h1>Fear effects</h1>
-<p>Following your advice, your colleague asked you to help analye the
+<p>Following your advice, your colleague asked you to help analyze the
 data. As a reminder:</p>
 <p>Prey (tadpoles) were housed in tanks (20 per tank). Prey in each tank
 were exposed to one of two treatments. Predator treatment tanks also
@@ -414,10 +426,8 @@ each tank are not fully independent.</em></li>
 </ul></li>
 <li><p>results from statistical test</p></li>
 </ul>
-<pre class="r"><code>library(lme4)</code></pre>
-<pre><code>## Warning: package &#39;lme4&#39; was built under R version 4.2.2</code></pre>
-<pre><code>## Loading required package: Matrix</code></pre>
-<pre class="r"><code>fear_lmer &lt;- lmer(length~treatment + (1|container), fear)
+<pre class="r"><code>library(lme4)
+fear_lmer &lt;- lmer(length~treatment + (1|container), fear)
 check_mixed_model &lt;- function (model, model_name = NULL) {
   #collection of things you might check for mixed model
   par(mfrow = c(2,3))
@@ -460,10 +470,8 @@ summary(fear_lmer)</code></pre>
 ## Correlation of Fixed Effects:
 ##             (Intr)
 ## trtmntprdtr -0.707</code></pre>
-<pre class="r"><code>library(car)</code></pre>
-<pre><code>## Warning: package &#39;car&#39; was built under R version 4.2.2</code></pre>
-<pre><code>## Loading required package: carData</code></pre>
-<pre class="r"><code>Anova(fear_lmer, type = &quot;III&quot;)</code></pre>
+<pre class="r"><code>library(car)
+Anova(fear_lmer, type = &quot;III&quot;)</code></pre>
 <pre><code>## Analysis of Deviance Table (Type III Wald chisquare tests)
 ## 
 ## Response: length
@@ -490,16 +498,12 @@ indicates tadpoles actually grew more in the predator treatment.</p>
 <p>Create a properly-labelled plot of the data. There are many options
 here, but make sure you show trends and patterns that match your
 analysis.</p>
-<pre class="r"><code>library(Rmisc)</code></pre>
-<pre><code>## Loading required package: lattice</code></pre>
-<pre><code>## Loading required package: plyr</code></pre>
-<pre><code>## Warning: package &#39;plyr&#39; was built under R version 4.2.2</code></pre>
-<pre class="r"><code>fear_graph &lt;- summarySE(fear, measurevar = &quot;length&quot;, groupvars = &quot;treatment&quot;)
+<pre class="r"><code>library(Rmisc)
+fear_graph &lt;- summarySE(fear, measurevar = &quot;length&quot;, groupvars = &quot;treatment&quot;)
 levels(fear_graph$treatment) = c(&quot;Control&quot; , &quot;Predator&quot;)
 
-library(ggplot2)</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
-<pre class="r"><code>ggplot(fear_graph, 
+library(ggplot2)
+ggplot(fear_graph, 
                                      aes_string(x=&quot;treatment&quot;, 
                                                 y = &quot;length&quot;, color = &quot;treatment&quot;,
                                                 shape = &quot;treatment&quot;)) +
@@ -519,10 +523,6 @@ library(ggplot2)</code></pre>
   ylim(c(0,30))+
   guides(shape=&quot;none&quot;, color= &quot;none&quot;)+
   ggtitle(&quot;Tadpoles grow more in presence of predator&quot;)</code></pre>
-<pre><code>## Warning: `aes_string()` was deprecated in ggplot2
-## 3.0.0.
-## ℹ Please use tidy evaluation ideoms with
-##   `aes()`</code></pre>
 <pre><code>## Warning: Using `size` aesthetic for lines was
 ## deprecated in ggplot2 3.4.0.
 ## ℹ Please use `linewidth` instead.</code></pre>
@@ -837,9 +837,8 @@ explaining recruits. We can do this using bottom
 up/top-down/nested/other approaches. A few are shown below.</p>
 <div id="dredge-using-aic" class="section level3">
 <h3>Dredge using AIC</h3>
-<pre class="r"><code>library(MuMIn)</code></pre>
-<pre><code>## Warning: package &#39;MuMIn&#39; was built under R version 4.2.2</code></pre>
-<pre class="r"><code>recruits_lm &lt;- lm(recruits ~., recruits)
+<pre class="r"><code>library(MuMIn)
+recruits_lm &lt;- lm(recruits ~., recruits)
 options(na.action = &quot;na.fail&quot;)
 write.csv(dredge(recruits_lm), &quot;dredge_output.csv&quot;, row.names = F)</code></pre>
 <pre><code>## Fixed term is &quot;(Intercept)&quot;</code></pre>

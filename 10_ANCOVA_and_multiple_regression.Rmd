@@ -593,7 +593,7 @@ summary(pulse_final)
 
 ```{r}
 options(na.action = "na.fail")
-auto <- dredge(pulse_full)
+auto <- dredge(pulse.lm2)
 ```
 
 ```{r}

@@ -1,7 +1,7 @@
 ---
 title: "2022 Spring 78002 final answers"
 author: "jsg"
-date: "Last compiled on 11 December, 2022 17:13"
+date: "Last compiled on 11 December, 2022 17:39"
 output:
   html_document:
     toc: true
@@ -24,12 +24,12 @@ and be reported to the Dean of Students.
 The exam is due by 12 PM on Monday, 5/16/2022.
 
 As often happens, your excellent statistical advice (provided via the 78001 exam) 
-has led to more calls for help (or just being given the data to anlayze). 
+has led to more calls for help (or just being given the data to analyze). 
 The below questions build on the earlier exam.
 
 # Fear effects
 
-Following your advice, your colleague asked you to help analye the data. 
+Following your advice, your colleague asked you to help analyze the data. 
 As a reminder:
 
 Prey (tadpoles) were housed in tanks (20 per tank).  Prey in each tank were 
@@ -83,17 +83,6 @@ Make sure you include
 
 ```r
 library(lme4)
-```
-
-```
-## Warning: package 'lme4' was built under R version 4.2.2
-```
-
-```
-## Loading required package: Matrix
-```
-
-```r
 fear_lmer <- lmer(length~treatment + (1|container), fear)
 check_mixed_model <- function (model, model_name = NULL) {
   #collection of things you might check for mixed model
@@ -144,17 +133,6 @@ summary(fear_lmer)
 
 ```r
 library(car)
-```
-
-```
-## Warning: package 'car' was built under R version 4.2.2
-```
-
-```
-## Loading required package: carData
-```
-
-```r
 Anova(fear_lmer, type = "III")
 ```
 
@@ -186,32 +164,10 @@ make sure you show trends and patterns that match your analysis.
 
 ```r
 library(Rmisc)
-```
-
-```
-## Loading required package: lattice
-```
-
-```
-## Loading required package: plyr
-```
-
-```
-## Warning: package 'plyr' was built under R version 4.2.2
-```
-
-```r
 fear_graph <- summarySE(fear, measurevar = "length", groupvars = "treatment")
 levels(fear_graph$treatment) = c("Control" , "Predator")
 
 library(ggplot2)
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 4.2.2
-```
-
-```r
 ggplot(fear_graph, 
                                      aes_string(x="treatment", 
                                                 y = "length", color = "treatment",
@@ -232,13 +188,6 @@ ggplot(fear_graph,
   ylim(c(0,30))+
   guides(shape="none", color= "none")+
   ggtitle("Tadpoles grow more in presence of predator")
-```
-
-```
-## Warning: `aes_string()` was deprecated in ggplot2
-## 3.0.0.
-## ℹ Please use tidy evaluation ideoms with
-##   `aes()`
 ```
 
 ```
@@ -645,13 +594,6 @@ using bottom up/top-down/nested/other approaches. A few are shown below.
 
 ```r
 library(MuMIn)
-```
-
-```
-## Warning: package 'MuMIn' was built under R version 4.2.2
-```
-
-```r
 recruits_lm <- lm(recruits ~., recruits)
 options(na.action = "na.fail")
 write.csv(dredge(recruits_lm), "dredge_output.csv", row.names = F)
