@@ -1,7 +1,7 @@
 ---
 title: "3. Introduction to hypothesis testing via binomial tests"
 author: "jjh"
-date: "Last compiled on 07 November, 2022 08:12"
+date: "Last compiled on 11 December, 2022 17:13"
 output:
   html_document:
     toc: true
@@ -27,14 +27,6 @@ require(binom)
 
 ```r
 require(ggplot2)
-```
-
-```
-## Loading required package: ggplot2
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 4.2.2
 ```
 
 Before doing this, review the **Introduction To Hypothesis Testing Via Binomial Tests** lecture set slides from 
@@ -198,13 +190,9 @@ ggplot(data.frame(Right_Handed = sampling_experiment_df[1,]), aes(Right_Handed))
 ```
 
 ```
-## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-```
-
-```
-## Warning: The `<scale>` argument of `guides()` cannot be `FALSE`. Use "none" instead as
-## of ggplot2 3.3.4.
+## Warning: The `<scale>` argument of `guides()` cannot
+## be `FALSE`. Use "none" instead as of ggplot2
+## 3.3.4.
 ```
 
 ![](ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
@@ -277,11 +265,13 @@ ggplot(sampling_experiment_df, aes(Right_Handed)) +
 ```
 
 ```
-## Warning: Removed 2 rows containing non-finite values (`stat_count()`).
+## Warning: Removed 2 rows containing non-finite values
+## (`stat_count()`).
 ```
 
 ```
-## Warning: Removed 1 rows containing missing values (`geom_bar()`).
+## Warning: Removed 1 rows containing missing values
+## (`geom_bar()`).
 ```
 
 ![](ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
@@ -350,11 +340,13 @@ ggplot(pdf, aes(x= Number_right_eared, y = using_distribution)) +
 ```
 
 ```
-## Warning: Removed 5 rows containing missing values (`position_stack()`).
+## Warning: Removed 5 rows containing missing values
+## (`position_stack()`).
 ```
 
 ```
-## Warning: Removed 2 rows containing missing values (`geom_bar()`).
+## Warning: Removed 2 rows containing missing values
+## (`geom_bar()`).
 ```
 
 ![](ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-13-1.png)<!-- -->

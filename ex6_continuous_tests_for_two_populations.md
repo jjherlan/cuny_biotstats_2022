@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 07 November, 2022 08:12"
+date: "Last compiled on 11 December, 2022 17:13"
 output:
   html_document:
     toc: true
@@ -14,6 +14,26 @@ output:
 
 ```r
 library(reshape)
+```
+
+```
+## 
+## Attaching package: 'reshape'
+```
+
+```
+## The following objects are masked from 'package:plyr':
+## 
+##     rename, round_any
+```
+
+```
+## The following object is masked from 'package:Matrix':
+## 
+##     expand
+```
+
+```r
 library(reshape2)
 ```
 
@@ -41,21 +61,31 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages
-## ──────────────────────────────────────
-## tidyverse 1.3.2 ──
+## ── Attaching packages ───── tidyverse 1.3.2 ──
 ```
 
 ```
 ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
 ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
 ## ✔ purrr   0.3.5      
-## ── Conflicts ───────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ tidyr::expand() masks reshape::expand()
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ dplyr::rename() masks reshape::rename()
+## ── Conflicts ──────── tidyverse_conflicts() ──
+## ✖ dplyr::arrange()   masks plyr::arrange()
+## ✖ purrr::compact()   masks plyr::compact()
+## ✖ dplyr::count()     masks plyr::count()
+## ✖ tidyr::expand()    masks reshape::expand(), Matrix::expand()
+## ✖ dplyr::failwith()  masks plyr::failwith()
+## ✖ dplyr::filter()    masks stats::filter()
+## ✖ dplyr::id()        masks plyr::id()
+## ✖ dplyr::lag()       masks stats::lag()
+## ✖ dplyr::mutate()    masks plyr::mutate()
+## ✖ tidyr::pack()      masks Matrix::pack()
+## ✖ dplyr::recode()    masks car::recode()
+## ✖ dplyr::rename()    masks reshape::rename(), plyr::rename()
+## ✖ purrr::some()      masks car::some()
+## ✖ dplyr::summarise() masks plyr::summarise()
+## ✖ dplyr::summarize() masks plyr::summarize()
+## ✖ tidyr::unpack()    masks Matrix::unpack()
 ```
 
 ```r
@@ -68,35 +98,6 @@ packageVersion("dplyr")
 
 ```r
 require(Rmisc)
-```
-
-```
-## Loading required package: Rmisc
-## Loading required package: lattice
-## Loading required package: plyr
-## ------------------------------------------------------------------------------
-## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)
-## ------------------------------------------------------------------------------
-## 
-## Attaching package: 'plyr'
-## 
-## The following objects are masked from 'package:dplyr':
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize
-## 
-## The following object is masked from 'package:purrr':
-## 
-##     compact
-## 
-## The following objects are masked from 'package:reshape':
-## 
-##     rename, round_any
-```
-
-```r
 require(BSDA)
 ```
 
@@ -104,6 +105,10 @@ require(BSDA)
 ## Loading required package: BSDA
 ## 
 ## Attaching package: 'BSDA'
+## 
+## The following objects are masked from 'package:carData':
+## 
+##     Vocab, Wool
 ## 
 ## The following object is masked from 'package:datasets':
 ## 
@@ -241,15 +246,21 @@ bootstrapjsg(drug.df$drugB, drug.df$DrugG)
 ```
 
 ```
+## The following object is masked from 'package:survival':
+## 
+##     aml
+```
+
+```
 ## The following object is masked from 'package:lattice':
 ## 
 ##     melanoma
 ```
 
 ```
-## The following object is masked from 'package:survival':
+## The following object is masked from 'package:car':
 ## 
-##     aml
+##     logit
 ```
 
 ```
@@ -1077,7 +1088,8 @@ ais_histogram
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better
+## value with `binwidth`.
 ```
 
 ![](ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
@@ -1097,7 +1109,8 @@ ais_histogram
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better
+## value with `binwidth`.
 ```
 
 ![](ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-36-1.png)<!-- -->

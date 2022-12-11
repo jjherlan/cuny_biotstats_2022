@@ -11,3 +11,13 @@ navbar:
       href: ex3_introduction_to_hypothesis_testing_via_binomial_test.html
     - text: "Lesson 6"
       href: ex6_continuous_tests_for_two_populations.html
+    - text: "Lesson 10"
+      href: 10_ANCOVA_and_multiple_regression.html
+    - text: "Lesson 11"
+      href: 11_LM_Extensions.html
+    - text: "Lesson 12"
+      href: 12_Bayes_standalone.html
+    - text: "Lesson 13"
+      href: 13_Multivariate_methods.html
+    - text: "Spring 2022 Final"
+      href: 2022_spring_final_78002.html

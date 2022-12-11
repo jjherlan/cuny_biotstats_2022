@@ -14,7 +14,7 @@
 
 <title>6. Continuous tests 2 populations</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -331,6 +331,9 @@ div.tocify {
 <li>
   <a href="ex6_continuous_tests_for_two_populations.html">Lesson 6</a>
 </li>
+<li>
+  <a href="2022_spring_final_78002.html">Spring 2022 Final</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -345,13 +348,21 @@ div.tocify {
 
 <h1 class="title toc-ignore">6. Continuous tests 2 populations</h1>
 <h4 class="author">jjh</h4>
-<h4 class="date">Last compiled on 07 November, 2022 08:12</h4>
+<h4 class="date">Last compiled on 11 December, 2022 17:13</h4>
 
 </div>
 
 
-<pre class="r"><code>library(reshape)
-library(reshape2)</code></pre>
+<pre class="r"><code>library(reshape)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;reshape&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:plyr&#39;:
+## 
+##     rename, round_any</code></pre>
+<pre><code>## The following object is masked from &#39;package:Matrix&#39;:
+## 
+##     expand</code></pre>
+<pre class="r"><code>library(reshape2)</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;reshape2&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:reshape&#39;:
@@ -360,48 +371,39 @@ library(reshape2)</code></pre>
 <pre class="r"><code>library(coin)</code></pre>
 <pre><code>## Loading required package: survival</code></pre>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages
-## ──────────────────────────────────────
-## tidyverse 1.3.2 ──</code></pre>
+<pre><code>## ── Attaching packages ───── tidyverse 1.3.2 ──</code></pre>
 <pre><code>## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
 ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
 ## ✔ purrr   0.3.5      
-## ── Conflicts ───────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ tidyr::expand() masks reshape::expand()
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ dplyr::rename() masks reshape::rename()</code></pre>
+## ── Conflicts ──────── tidyverse_conflicts() ──
+## ✖ dplyr::arrange()   masks plyr::arrange()
+## ✖ purrr::compact()   masks plyr::compact()
+## ✖ dplyr::count()     masks plyr::count()
+## ✖ tidyr::expand()    masks reshape::expand(), Matrix::expand()
+## ✖ dplyr::failwith()  masks plyr::failwith()
+## ✖ dplyr::filter()    masks stats::filter()
+## ✖ dplyr::id()        masks plyr::id()
+## ✖ dplyr::lag()       masks stats::lag()
+## ✖ dplyr::mutate()    masks plyr::mutate()
+## ✖ tidyr::pack()      masks Matrix::pack()
+## ✖ dplyr::recode()    masks car::recode()
+## ✖ dplyr::rename()    masks reshape::rename(), plyr::rename()
+## ✖ purrr::some()      masks car::some()
+## ✖ dplyr::summarise() masks plyr::summarise()
+## ✖ dplyr::summarize() masks plyr::summarize()
+## ✖ tidyr::unpack()    masks Matrix::unpack()</code></pre>
 <pre class="r"><code>packageVersion(&quot;dplyr&quot;)</code></pre>
 <pre><code>## [1] &#39;1.0.10&#39;</code></pre>
-<pre class="r"><code>require(Rmisc)</code></pre>
-<pre><code>## Loading required package: Rmisc
-## Loading required package: lattice
-## Loading required package: plyr
-## ------------------------------------------------------------------------------
-## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)
-## ------------------------------------------------------------------------------
-## 
-## Attaching package: &#39;plyr&#39;
-## 
-## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize
-## 
-## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     compact
-## 
-## The following objects are masked from &#39;package:reshape&#39;:
-## 
-##     rename, round_any</code></pre>
-<pre class="r"><code>require(BSDA)</code></pre>
+<pre class="r"><code>require(Rmisc)
+require(BSDA)</code></pre>
 <pre><code>## Loading required package: BSDA
 ## 
 ## Attaching package: &#39;BSDA&#39;
+## 
+## The following objects are masked from &#39;package:carData&#39;:
+## 
+##     Vocab, Wool
 ## 
 ## The following object is masked from &#39;package:datasets&#39;:
 ## 
@@ -519,12 +521,15 @@ two groups</p>
 <pre class="r"><code>bootstrapjsg(drug.df$drugB, drug.df$DrugG)</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;boot&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:lattice&#39;:
-## 
-##     melanoma</code></pre>
 <pre><code>## The following object is masked from &#39;package:survival&#39;:
 ## 
 ##     aml</code></pre>
+<pre><code>## The following object is masked from &#39;package:lattice&#39;:
+## 
+##     melanoma</code></pre>
+<pre><code>## The following object is masked from &#39;package:car&#39;:
+## 
+##     logit</code></pre>
 <pre><code>## Warning in boot.ci(a, conf): bootstrap variances needed for studentized
 ## intervals</code></pre>
 <pre><code>##                                                                         
@@ -1192,7 +1197,8 @@ concentration (Hg).</li>
   geom_histogram() # +
   #facet_wrap(vars(Sex), ncol = 1)</code></pre>
 <pre class="r"><code>ais_histogram</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better
+## value with `binwidth`.</code></pre>
 <p><img
 src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-34-1.png" /><!-- --></p>
 <pre class="r"><code>ais_histogram &lt;- 
@@ -1201,7 +1207,8 @@ src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-34
   geom_histogram() +
   facet_wrap(vars(Sex), ncol = 1)</code></pre>
 <pre class="r"><code>ais_histogram</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better
+## value with `binwidth`.</code></pre>
 <p><img
 src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-36-1.png" /><!-- --></p>
 <pre class="r"><code>summarySE(ais_tibble, measurevar = &#39;Hg&#39;, groupvars = c(&#39;Sex&#39;, &#39;Sport&#39;), na.rm = T)</code></pre>
