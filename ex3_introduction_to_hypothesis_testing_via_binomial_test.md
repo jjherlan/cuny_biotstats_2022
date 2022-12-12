@@ -1,7 +1,7 @@
 ---
 title: "3. Introduction to hypothesis testing via binomial tests"
 author: "jjh"
-date: "Last compiled on 12 December, 2022 09:20"
+date: "Last compiled on 12 December, 2022 09:29"
 output:
   html_document:
     toc: true

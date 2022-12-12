@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 12 December, 2022 09:20"
+date: "Last compiled on 12 December, 2022 09:29"
 output:
   html_document:
     toc: true
