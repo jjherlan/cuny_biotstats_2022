@@ -1,7 +1,7 @@
 ---
 title: "11. Linear model extensions"
 author: "jsg"
-date: "Last compiled on 11 December, 2022 17:53"
+date: "Last compiled on 12 December, 2022 09:20"
 output:
   html_document:
     toc: true
@@ -806,10 +806,8 @@ whelk_plot <- ggplot(whelk, aes_string(x="Shell.Length", y = "Mass")) +
 ```
 
 ```
-## Warning: `aes_string()` was deprecated in ggplot2
-## 3.0.0.
-## ℹ Please use tidy evaluation ideoms with
-##   `aes()`
+## Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
+## ℹ Please use tidy evaluation ideoms with `aes()`
 ```
 
 

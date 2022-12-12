@@ -1,7 +1,7 @@
 ---
 title: "10. ANCOVAs and multiple regression"
 author: "jsg"
-date: "Last compiled on 11 December, 2022 17:53"
+date: "Last compiled on 12 December, 2022 09:20"
 output:
   html_document:
     toc: true
@@ -20,7 +20,7 @@ require(tidyverse)
 ```
 
 ```
-## ── Attaching packages ───── tidyverse 1.3.2 ──
+## ── Attaching packages ──────────── tidyverse 1.3.2 ──
 ## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
 ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
 ## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
@@ -32,7 +32,7 @@ require(tidyverse)
 ```
 
 ```
-## ── Conflicts ──────── tidyverse_conflicts() ──
+## ── Conflicts ─────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ```

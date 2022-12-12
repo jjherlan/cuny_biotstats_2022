@@ -1,7 +1,7 @@
 ---
 title: "2022 Spring 78002 final answers"
 author: "jsg"
-date: "Last compiled on 11 December, 2022 17:53"
+date: "Last compiled on 12 December, 2022 09:20"
 output:
   html_document:
     toc: true
@@ -191,8 +191,8 @@ ggplot(fear_graph,
 ```
 
 ```
-## Warning: Using `size` aesthetic for lines was
-## deprecated in ggplot2 3.4.0.
+## Warning: Using `size` aesthetic for lines was deprecated in
+## ggplot2 3.4.0.
 ## ℹ Please use `linewidth` instead.
 ```
 

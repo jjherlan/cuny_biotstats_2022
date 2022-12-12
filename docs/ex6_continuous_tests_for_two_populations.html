@@ -360,7 +360,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">6. Continuous tests 2 populations</h1>
 <h4 class="author">jjh</h4>
-<h4 class="date">Last compiled on 11 December, 2022 17:54</h4>
+<h4 class="date">Last compiled on 12 December, 2022 09:20</h4>
 
 </div>
 
@@ -607,9 +607,9 @@ fertilizer_wide &lt;- dcast(fert, ID ~ fertilizer, value.var = &quot;height&quot
 <pre><code>##                                                                       
 ##                             &quot;0.95&quot; &quot;% Percentile Confidence Interval&quot; 
 ##                                                                       
-##                 &quot;1.79756260208486&quot;                           &quot;7.4575&quot; 
+##                 &quot;1.81025040833945&quot;                 &quot;7.45981219374541&quot; 
 ##                                                                       
-##                          &quot;p-value&quot;                            &quot;7e-04&quot;</code></pre>
+##                          &quot;p-value&quot;                           &quot;0.0013&quot;</code></pre>
 <pre class="r"><code>independence_test(drug ~ type, drug3.df)</code></pre>
 <pre><code>## 
 ##  Asymptotic General Independence Test
@@ -1196,8 +1196,8 @@ concentration (Hg).</li>
   geom_histogram() # +
   #facet_wrap(vars(Sex), ncol = 1)</code></pre>
 <pre class="r"><code>ais_histogram</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better
-## value with `binwidth`.</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value
+## with `binwidth`.</code></pre>
 <p><img
 src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-34-1.png" /><!-- --></p>
 <pre class="r"><code>ais_histogram &lt;- 
@@ -1206,8 +1206,8 @@ src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-34
   geom_histogram() +
   facet_wrap(vars(Sex), ncol = 1)</code></pre>
 <pre class="r"><code>ais_histogram</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better
-## value with `binwidth`.</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value
+## with `binwidth`.</code></pre>
 <p><img
 src="ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-36-1.png" /><!-- --></p>
 <pre class="r"><code>summarySE(ais_tibble, measurevar = &#39;Hg&#39;, groupvars = c(&#39;Sex&#39;, &#39;Sport&#39;), na.rm = T)</code></pre>

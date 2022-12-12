@@ -1,7 +1,7 @@
 ---
 title: "6. Continuous tests 2 populations"
 author: "jjh"
-date: "Last compiled on 11 December, 2022 17:54"
+date: "Last compiled on 12 December, 2022 09:20"
 output:
   html_document:
     toc: true
@@ -394,9 +394,9 @@ bootstrapjsg(fertilizer_wide$new, fertilizer_wide$old)
 ##                                                                       
 ##                             "0.95" "% Percentile Confidence Interval" 
 ##                                                                       
-##                 "1.79756260208486"                           "7.4575" 
+##                 "1.81025040833945"                 "7.45981219374541" 
 ##                                                                       
-##                          "p-value"                            "7e-04"
+##                          "p-value"                           "0.0013"
 ```
 
 
@@ -1084,8 +1084,8 @@ ais_histogram
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better
-## value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value
+## with `binwidth`.
 ```
 
 ![](ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
@@ -1105,8 +1105,8 @@ ais_histogram
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better
-## value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value
+## with `binwidth`.
 ```
 
 ![](ex6_continuous_tests_for_two_populations_files/figure-html/unnamed-chunk-36-1.png)<!-- -->

@@ -362,7 +362,7 @@ div.tocify {
 total)</h1>
 <h3 class="subtitle">Happy (late) Halloween</h3>
 <h4 class="author">jsg answers</h4>
-<h4 class="date">Last compiled on 12 December, 2022 08:56</h4>
+<h4 class="date">Last compiled on 12 December, 2022 09:20</h4>
 
 </div>
 
@@ -619,10 +619,8 @@ src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-6-3.png" /
 src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-6-4.png" /><!-- --></p>
 <p>I first check assumptions. Even though there is some evidence of
 variance increasing with mean, I think a linear model is ok.</p>
-<pre class="r"><code>library(car)</code></pre>
-<pre><code>## Warning: package &#39;car&#39; was built under R version 4.2.2</code></pre>
-<pre><code>## Loading required package: carData</code></pre>
-<pre class="r"><code>Anova(height_lm, type=&quot;III&quot;)</code></pre>
+<pre class="r"><code>library(car)
+Anova(height_lm, type=&quot;III&quot;)</code></pre>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: change
@@ -680,17 +678,8 @@ src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-9-4.png" /
 <p>There is strong evidence for impact of dosage on female height
 (p&lt;.001), so I conducted post-hoc tests using sequential Bonferroni
 methods to control the FWER.</p>
-<pre class="r"><code>library(multcomp)</code></pre>
-<pre><code>## Loading required package: mvtnorm</code></pre>
-<pre><code>## Loading required package: survival</code></pre>
-<pre><code>## Loading required package: TH.data</code></pre>
-<pre><code>## Loading required package: MASS</code></pre>
-<pre><code>## 
-## Attaching package: &#39;TH.data&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:MASS&#39;:
-## 
-##     geyser</code></pre>
-<pre class="r"><code>summary(glht(height_lm_f, linfct = mcp(Treatment = &quot;Tukey&quot;)))</code></pre>
+<pre class="r"><code>library(multcomp)
+summary(glht(height_lm_f, linfct = mcp(Treatment = &quot;Tukey&quot;)))</code></pre>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses
 ## 
@@ -786,16 +775,13 @@ heart rate (p=.942).</li>
 <ol start="6" style="list-style-type: decimal">
 <li>Graph the data used in question 5 in an appropriate way (5 pts)</li>
 </ol>
-<pre class="r"><code>library(ggplot2)</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
-<pre class="r"><code>ggplot(moonlight,aes(lunar_intensity,heart_rate))+
+<pre class="r"><code>library(ggplot2)
+ggplot(moonlight,aes(lunar_intensity,heart_rate))+
   geom_point()+
   geom_smooth(color=&quot;blue&quot;,size=1, method = &quot;lm&quot;)+
   xlab(&quot;maximum lunar intensity (lux)&quot;)+
   ylab(&quot;maximum heart rate (bpm)&quot;)+
   ggtitle(&quot;maximum heart rate is independent of maximum light intensity&quot;)</code></pre>
-<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.</code></pre>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <p><img
 src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-14-1.png" /><!-- --></p>

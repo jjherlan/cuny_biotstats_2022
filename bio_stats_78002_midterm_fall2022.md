@@ -2,7 +2,7 @@
 title: "2022 Fall 78001-2 Midterm (30 points total)"
 subtitle:  "Happy (late) Halloween"
 author: "jsg answers"
-date: "Last compiled on 12 December, 2022 08:56"
+date: "Last compiled on 12 December, 2022 09:20"
 output:
   html_document:
     toc: true
@@ -286,17 +286,6 @@ with mean, I think a linear model is ok.
 
 ```r
 library(car)
-```
-
-```
-## Warning: package 'car' was built under R version 4.2.2
-```
-
-```
-## Loading required package: carData
-```
-
-```r
 Anova(height_lm, type="III")
 ```
 
@@ -372,36 +361,6 @@ conducted post-hoc tests using sequential Bonferroni methods to control the FWER
 
 ```r
 library(multcomp)
-```
-
-```
-## Loading required package: mvtnorm
-```
-
-```
-## Loading required package: survival
-```
-
-```
-## Loading required package: TH.data
-```
-
-```
-## Loading required package: MASS
-```
-
-```
-## 
-## Attaching package: 'TH.data'
-```
-
-```
-## The following object is masked from 'package:MASS':
-## 
-##     geyser
-```
-
-```r
 summary(glht(height_lm_f, linfct = mcp(Treatment = "Tukey")))
 ```
 
@@ -508,24 +467,12 @@ summary(moonlight_lm)
 
 ```r
 library(ggplot2)
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 4.2.2
-```
-
-```r
 ggplot(moonlight,aes(lunar_intensity,heart_rate))+
   geom_point()+
   geom_smooth(color="blue",size=1, method = "lm")+
   xlab("maximum lunar intensity (lux)")+
   ylab("maximum heart rate (bpm)")+
   ggtitle("maximum heart rate is independent of maximum light intensity")
-```
-
-```
-## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
 ```
 
 ```

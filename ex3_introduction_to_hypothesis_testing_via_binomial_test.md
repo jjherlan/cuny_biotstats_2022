@@ -1,7 +1,7 @@
 ---
 title: "3. Introduction to hypothesis testing via binomial tests"
 author: "jjh"
-date: "Last compiled on 11 December, 2022 17:53"
+date: "Last compiled on 12 December, 2022 09:20"
 output:
   html_document:
     toc: true
@@ -15,17 +15,6 @@ output:
 
 ```r
 require(binom)
-```
-
-```
-## Loading required package: binom
-```
-
-```
-## Warning: package 'binom' was built under R version 4.2.2
-```
-
-```r
 require(ggplot2)
 ```
 
@@ -190,9 +179,8 @@ ggplot(data.frame(Right_Handed = sampling_experiment_df[1,]), aes(Right_Handed))
 ```
 
 ```
-## Warning: The `<scale>` argument of `guides()` cannot
-## be `FALSE`. Use "none" instead as of ggplot2
-## 3.3.4.
+## Warning: The `<scale>` argument of `guides()` cannot be
+## `FALSE`. Use "none" instead as of ggplot2 3.3.4.
 ```
 
 ![](ex3_introduction_to_hypothesis_testing_via_binomial_test_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
