@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="jsg answers" />
+
+
+<title>2022 Fall 78001-2 Midterm (30 points total)</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="ex3_introduction_to_hypothesis_testing_via_binomial_test.html">Lesson 3</a>
+</li>
+<li>
+  <a href="ex6_continuous_tests_for_two_populations.html">Lesson 6</a>
+</li>
+<li>
+  <a href="10_ANCOVA_and_multiple_regression.html">Lesson 10</a>
+</li>
+<li>
+  <a href="11_LM_Extensions.html">Lesson 11</a>
+</li>
+<li>
+  <a href="12_Bayes_standalone.html">Lesson 12</a>
+</li>
+<li>
+  <a href="13_Multivariate_methods.html">Lesson 13</a>
+</li>
+<li>
+  <a href="2022_spring_final_78002.html">Spring 2022 Final</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">2022 Fall 78001-2 Midterm (30 points
+total)</h1>
+<h3 class="subtitle">Happy (late) Halloween</h3>
+<h4 class="author">jsg answers</h4>
+<h4 class="date">Last compiled on 12 December, 2022 08:56</h4>
+
+</div>
+
+
+<div id="instructions-read-this-first." class="section level1">
+<h1>Instructions! Read this first.</h1>
+<p>The exam is open note, open course website, open class-related code
+repositories (mine and those you produced in class). However, you may
+not get external help ( from other students, directed internet searches,
+etc.). Please update the statement below to acknowledge these
+instructions (and that you can use git).</p>
+<p>I, INSERT YOUR NAME HERE, promise to not seek external help on the
+exam. I understand any academic issues will result in a D or F on the
+exam or in the class and be reported to the Dean of Students.</p>
+<p>Good luck!</p>
+</div>
+<div id="werewolf-halloween-redux" class="section level1">
+<h1>Werewolf (Halloween Redux!)</h1>
+<p><img
+src="https://2.bp.blogspot.com/-huSpt_sT7HI/WAmTUUV9GAI/AAAAAAAAZgQ/hWJ8TZx5MGAPuK5MFuRFEWdrAdMib4uqwCEw/s320/IMG_2931.JPG" /></p>
+<p>Many cultures have stories of people transforming into animals.
+Lycanthropy, or people becoming (or thinking they become) wolves is a
+common example that connects to the mythos around werewolves.</p>
+<p>Imagine werewolves are actually real and are caused by a virus that
+quickly spreads in communities. However, not everyone who has the virus
+transforms into werewolves for a number of reasons. While society has
+ways to deal with the virus (and werewolves), the virus that causes
+people to transform is continuously evolving and thus must be studied
+(does all this sound familiar?). A recent strain of concern has been
+noted.</p>
+</div>
+<div id="section" class="section level1">
+<h1>#1</h1>
+<ol style="list-style-type: decimal">
+<li>Following up on the 78001 exam, conduct the analysis you recommended
+for the sleep tracker study. As a reminder, a study is done to determine
+if the new strain leads to more people becoming werewolves.
+Historically, 10% of people in the focal town transformed during full
+moons. Last month, a study using sleep trackers found 17 out of 110
+subjects infected with the new strain became werewolves. Is there
+evidence that transformations are becoming more common with this strain?
+Make sure you include</li>
+</ol>
+<ul>
+<li>null hypothesis (1 pt)
+<ul>
+<li><em>H<sub>0</sub>: # of people transforming is no different with new
+strain/is equal to 10%</em></li>
+</ul></li>
+<li>alternative hypothesis (1 pt)
+<ul>
+<li><em>H<sub>A</sub>: # of people transforming is different with new
+strain/is not equal to 10%</em></li>
+</ul></li>
+<li>explanation for test you will use (1 pt)
+<ul>
+<li><em>I will use a binomial test to compare the calculated
+transformation rate to a a given value.</em></li>
+</ul></li>
+<li>results from statistical test (1 pt)</li>
+</ul>
+<pre class="r"><code>binom.test(17,110, p=.1)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  17 and 110
+## number of successes = 17, number of trials = 110, p-value = 0.07742
+## alternative hypothesis: true probability of success is not equal to 0.1
+## 95 percent confidence interval:
+##  0.09268325 0.23587260
+## sample estimates:
+## probability of success 
+##              0.1545455</code></pre>
+<pre class="r"><code>#or 
+
+binom.test(17,110, p=.1, alternative = &quot;greater&quot;)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  17 and 110
+## number of successes = 17, number of trials = 110, p-value = 0.04652
+## alternative hypothesis: true probability of success is greater than 0.1
+## 95 percent confidence interval:
+##  0.10093 1.00000
+## sample estimates:
+## probability of success 
+##              0.1545455</code></pre>
+<ul>
+<li>clear explanation of how results relate to your stated hypotheses (2
+pt)
+<ul>
+<li><em>I found a p-value of .03 (&lt;.05), so I reject the null
+hypothesis. The number of people transforming has changed.
+<strong>BONUS/not required</strong> It appears to be
+increasing.</em></li>
+</ul></li>
+</ul>
+</div>
+<div id="section-1" class="section level1">
+<h1>#2</h1>
+<ol start="2" style="list-style-type: decimal">
+<li>Develop confidence intervals to match this data and explain what
+they mean. (2 pts)</li>
+</ol>
+<pre class="r"><code>library(binom)</code></pre>
+<pre><code>## Warning: package &#39;binom&#39; was built under R version 4.2.2</code></pre>
+<pre class="r"><code>binom.confint(17,110)</code></pre>
+<pre><code>##           method  x   n      mean      lower     upper
+## 1  agresti-coull 17 110 0.1545455 0.09781965 0.2345853
+## 2     asymptotic 17 110 0.1545455 0.08699551 0.2220954
+## 3          bayes 17 110 0.1576577 0.09272043 0.2260930
+## 4        cloglog 17 110 0.1545455 0.09444402 0.2281922
+## 5          exact 17 110 0.1545455 0.09268325 0.2358726
+## 6          logit 17 110 0.1545455 0.09828990 0.2346209
+## 7         probit 17 110 0.1545455 0.09660140 0.2317486
+## 8        profile 17 110 0.1545455 0.09529930 0.2296965
+## 9            lrt 17 110 0.1545455 0.09529030 0.2296962
+## 10     prop.test 17 110 0.1545455 0.09516327 0.2387607
+## 11        wilson 17 110 0.1545455 0.09878652 0.2336184</code></pre>
+<pre class="r"><code>#or
+binom.confint(17,110, conf.level = .9)</code></pre>
+<pre><code>##           method  x   n      mean      lower     upper
+## 1  agresti-coull 17 110 0.1545455 0.10563277 0.2200437
+## 2     asymptotic 17 110 0.1545455 0.09785575 0.2112352
+## 3          bayes 17 110 0.1576577 0.10100471 0.2130993
+## 4        cloglog 17 110 0.1545455 0.10304472 0.2156210
+## 5          exact 17 110 0.1545455 0.10092996 0.2227526
+## 6          logit 17 110 0.1545455 0.10590646 0.2200254
+## 7         probit 17 110 0.1545455 0.10464904 0.2180591
+## 8        profile 17 110 0.1545455 0.10368463 0.2166490
+## 9            lrt 17 110 0.1545455 0.10367873 0.2166468
+## 10     prop.test 17 110 0.1545455 0.09516327 0.2387607
+## 11        wilson 17 110 0.1545455 0.10622246 0.2194540</code></pre>
+<p><em>The 95% confidence interval is 10.6 - 22.0% using the
+Agresti-Coull method (1 pts). A 95% confidence interval means if we
+sampled the population many times and constructed confidence intervals
+for each sample, 95% of the time the interval would contain the true
+population parameter. (1 pts)</em></p>
+</div>
+<div id="section-2" class="section level1">
+<h1>#3</h1>
+<ol start="3" style="list-style-type: decimal">
+<li>Analyze the data from the class question on vaccine impacts. As a
+reminder, as one attempt at controlling the outbreak, a company has
+developed a drug that it claims reduces the chances of people
+transforming. 150 participants, all of who transformed during the last
+full moon, are selected to take part in clinical trials. A third (the
+control group) receive a placebo, a third receive a single dose of the
+new drug, and a third receive 2 doses. During the next full moon, 33 out
+of 50 individuals in the control group transform into wolves. 43 out of
+50 in the single dose group transform, and 45 out of 50 in the 2-dose
+group transform. (6 pts)</li>
+</ol>
+<p>Use this data to investigate the impact of the drug. Make sure you
+include</p>
+<ul>
+<li>null hypothesis (1 pt)
+<ul>
+<li><em>H<sub>0</sub>: the proportion of people transforming is the same
+regardless of drug dosage</em></li>
+</ul></li>
+<li>alternative hypothesis (1 pt)
+<ul>
+<li><em>H<sub>A</sub>: the proportion of people transforming is not the
+same regardless of drug dosage</em></li>
+</ul></li>
+<li>explanation for test you will use (1 pt)
+<ul>
+<li>I will use a goodness of fit test/contingency analysis. Data are
+count-based. I will check assumptions once model is created.</li>
+</ul></li>
+<li>results from statistical test (1 pt)</li>
+</ul>
+<pre class="r"><code>outcomes &lt;- matrix(c(33, 50-33, 43, 50 - 43, 45, 50-45), nrow = 3, byrow = T)
+colnames(outcomes) &lt;- c(&quot;change&quot;, &quot;not change&quot;)
+rownames(outcomes)&lt;- c(&quot;control&quot;, &quot;single&quot;, &quot;double&quot;)
+
+chisq.test(outcomes)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  outcomes
+## X-squared = 10.601, df = 2, p-value = 0.004988</code></pre>
+<pre class="r"><code>library(rcompanion)
+pairwiseNominalIndependence(outcomes, compare = &quot;row&quot;, method = &quot;holm&quot;)</code></pre>
+<pre><code>##         Comparison p.Fisher p.adj.Fisher p.Gtest p.adj.Gtest p.Chisq
+## 1 control : single   0.0338       0.0676 0.01780     0.03560 0.03510
+## 2 control : double   0.0070       0.0210 0.00306     0.00918 0.00792
+## 3  single : double   0.7600       0.7600 0.53700     0.53700 0.75800
+##   p.adj.Chisq
+## 1      0.0702
+## 2      0.0238
+## 3      0.7580</code></pre>
+<p>Data were analyzed using a /chi^2 test given we are comparing
+proportions among groups. A low p-value (p&lt;.001) indicated a
+difference existed among the groups. I followed this up with pair-wise
+comparisons where I controlled for FWER using the sequential Bonferroni
+method. Results indicated a significant difference existed among between
+the control and double dose group (p = .008) and control and single dose
+groups (p=.035). Notably, vaccinated groups were more likely to
+transform.</p>
+</div>
+<div id="section-3" class="section level1">
+<h1>#4</h1>
+<p>Make the data</p>
+<pre class="r"><code>set.seed(13)
+height &lt;- data.frame(Gender = c(rep(&quot;M&quot;, 150), rep(&quot;F&quot;, 150)), 
+                     Treatment = rep(c(rep(&quot;control&quot;, 50), rep(&quot;single&quot;, 50), 
+                                   rep(&quot;double&quot;, 50)),2),
+                     change = rnorm(300, 0, .1)+ # no impact
+                       c(rep(0,150), rnorm(150,2,.5))+ # impact on F 
+                       c(rep(0,250),rnorm(50, 2, .5))) #impact of double dose larger
+
+write.csv(height, &quot;vaccine_height.csv&quot;, row.names = F)</code></pre>
+<p>Analyze the data from the follow-up vaccine study. As a reminder, In
+later correspondence, the company scientist note they also tracked
+adverse reactions including changes in height in a follow-up study
+because people are concerned werewolf vaccines can do strange things.
+The dataset includes information on participant gender (M, F); treatment
+(Control (no vaccine), single or double dose; and change in height in
+mm. Data can be downloaded using.</p>
+<pre class="r"><code>height &lt;- read.csv(&quot;https://raw.githubusercontent.com/jsgosnell/CUNY-BioStats/master/datasets/vaccine_height.csv&quot;, stringsAsFactors = T)</code></pre>
+<p>Use this data to investigate the impact of the drug on changes in
+height. Make sure you include</p>
+<ul>
+<li>null hypothesis (1 pt)
+<ul>
+<li>does does not impact change in height following vaccination</li>
+<li>gender does not impact change in height following vaccination</li>
+<li>gender and dose do not interact to impact change in height following
+vaccination</li>
+</ul></li>
+<li>alternative hypothesis (1 pt)
+<ul>
+<li>does does impact change in height following vaccination</li>
+<li>gender does impact change in height following vaccination</li>
+<li>gender and dose do interact to impact change in height following
+vaccination</li>
+</ul></li>
+<li>explanation for test you will use (1 pt)</li>
+</ul>
+<p>I will use a factorial ANOVA to consider these hypotheses. The
+outcome is numeric and the explanatory variables (2) are categorial. The
+design is crossed so I can also consider interactions</p>
+<ul>
+<li>results from statistical test (1 pt)</li>
+</ul>
+<pre class="r"><code>height_lm &lt;- lm(change ~ Gender*Treatment, height)
+plot(height_lm)</code></pre>
+<p><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-6-1.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-6-2.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-6-3.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-6-4.png" /><!-- --></p>
+<p>I first check assumptions. Even though there is some evidence of
+variance increasing with mean, I think a linear model is ok.</p>
+<pre class="r"><code>library(car)</code></pre>
+<pre><code>## Warning: package &#39;car&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## Loading required package: carData</code></pre>
+<pre class="r"><code>Anova(height_lm, type=&quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: change
+##                  Sum Sq  Df F value    Pr(&gt;F)    
+## (Intercept)      209.41   1 1155.11 &lt; 2.2e-16 ***
+## Gender           104.98   1  579.05 &lt; 2.2e-16 ***
+## Treatment        125.48   2  346.09 &lt; 2.2e-16 ***
+## Gender:Treatment  62.73   2  173.01 &lt; 2.2e-16 ***
+## Residuals         53.30 294                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<ul>
+<li>clear explanation of how results relate to your stated hypotheses (2
+pt)
+<ul>
+<li>*the outcomes suggest significant interaction between gender and
+dosage (F<sub>2,294</sub>=173, p&lt;0.001), so I compared each gender
+separately.</li>
+</ul></li>
+</ul>
+<pre class="r"><code>height_lm_m &lt;- lm(change ~ Treatment, height[height$Gender == &quot;M&quot;,])
+plot(height_lm_m)</code></pre>
+<p><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-8-1.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-8-2.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-8-3.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-8-4.png" /><!-- --></p>
+<pre class="r"><code>Anova(height_lm_m, type = &quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: change
+##              Sum Sq  Df F value Pr(&gt;F)
+## (Intercept) 0.00035   1  0.0382 0.8453
+## Treatment   0.00126   2  0.0689 0.9334
+## Residuals   1.34302 147</code></pre>
+<p>There is no evidence (p=.9334) for impact of drug on male height.
+Assumptions again appear to be valid.</p>
+<pre class="r"><code>height_lm_f &lt;- lm(change ~ Treatment, height[height$Gender == &quot;F&quot;,])
+plot(height_lm_f)</code></pre>
+<p><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-9-1.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-9-2.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-9-3.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-9-4.png" /><!-- --></p>
+<pre class="r"><code>Anova(height_lm_f, type = &quot;III&quot;)</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: change
+##              Sum Sq  Df F value    Pr(&gt;F)    
+## (Intercept) 209.411   1  592.48 &lt; 2.2e-16 ***
+## Treatment   125.485   2  177.52 &lt; 2.2e-16 ***
+## Residuals    51.957 147                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>There is strong evidence for impact of dosage on female height
+(p&lt;.001), so I conducted post-hoc tests using sequential Bonferroni
+methods to control the FWER.</p>
+<pre class="r"><code>library(multcomp)</code></pre>
+<pre><code>## Loading required package: mvtnorm</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre><code>## Loading required package: TH.data</code></pre>
+<pre><code>## Loading required package: MASS</code></pre>
+<pre><code>## 
+## Attaching package: &#39;TH.data&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:MASS&#39;:
+## 
+##     geyser</code></pre>
+<pre class="r"><code>summary(glht(height_lm_f, linfct = mcp(Treatment = &quot;Tukey&quot;)))</code></pre>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lm(formula = change ~ Treatment, data = height[height$Gender == 
+##     &quot;F&quot;, ])
+## 
+## Linear Hypotheses:
+##                       Estimate Std. Error t value Pr(&gt;|t|)    
+## double - control == 0  1.98119    0.11890  16.662   &lt;1e-05 ***
+## single - control == 0  0.08466    0.11890   0.712    0.757    
+## single - double == 0  -1.89653    0.11890 -15.950   &lt;1e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- single-step method)</code></pre>
+<p>Results indicates the double dosage differs from both other groups
+(p&lt;.05).</p>
+</div>
+<div id="section-4" class="section level1">
+<h1>#5</h1>
+<p>Make the data</p>
+<pre class="r"><code>set.seed(25)
+moonlight &lt;- data.frame(lunar_intensity = runif(60, 0, 1))
+moonlight$heart_rate &lt;- rnorm(60, 75,5)
+write.csv(moonlight, &quot;moonlight.csv&quot;, row.names = F)</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>60 participants were randomly selected from the nation wide (United
+States) transformation registry. Each individual was outfitted with
+heart rate and lux (light intensity) monitors to study relationship
+between maximum observed heart rate and light intensity . Data is
+available @</li>
+</ol>
+<pre class="r"><code>moonlight &lt;- read.csv(&quot;https://raw.githubusercontent.com/jsgosnell/CUNY-BioStats/master/datasets/moonlight.csv&quot;, stringsAsFactors = T)</code></pre>
+<p>Analyze the data. Make sure to include</p>
+<ul>
+<li>null hypothesis (1 pt)
+<ul>
+<li><em>H<sub>0</sub>: there is no relationship between lunar light
+intensity and heart rate</em></li>
+</ul></li>
+<li>alternative hypothesis (1 pt)
+<ul>
+<li><em>H<sub>A</sub>: # there is a relationship between lunar light
+intensity and heart rate</em></li>
+</ul></li>
+<li>explanation for test you will use (1 pt)
+<ul>
+<li><em>I will use linear regression. I’m assuming light intensity might
+drive heart rate, and both variables are continuous.
+Correlation/association is another option.</em></li>
+</ul></li>
+<li>results from statistical test (1 pt)</li>
+</ul>
+<pre class="r"><code>moonlight_lm &lt;- lm(heart_rate~lunar_intensity, moonlight)
+plot(moonlight_lm)</code></pre>
+<p><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-13-1.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-13-2.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-13-3.png" /><!-- --><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-13-4.png" /><!-- --></p>
+<pre class="r"><code>summary(moonlight_lm)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = heart_rate ~ lunar_intensity, data = moonlight)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.5512  -3.9096  -0.5589   2.6699  11.4861 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      73.7068     1.1710  62.944   &lt;2e-16 ***
+## lunar_intensity   0.1645     2.2331   0.074    0.942    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.825 on 58 degrees of freedom
+## Multiple R-squared:  9.353e-05,  Adjusted R-squared:  -0.01715 
+## F-statistic: 0.005425 on 1 and 58 DF,  p-value: 0.9415</code></pre>
+<ul>
+<li><p>clear explanation of how results relate to your stated hypotheses
+(2 pt)</p>
+<ul>
+<li>Assumptions appear to be met. Lunar intensity is not related to
+heart rate (p=.942).</li>
+</ul></li>
+</ul>
+</div>
+<div id="section-5" class="section level1">
+<h1>#6</h1>
+<ol start="6" style="list-style-type: decimal">
+<li>Graph the data used in question 5 in an appropriate way (5 pts)</li>
+</ol>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
+<pre class="r"><code>ggplot(moonlight,aes(lunar_intensity,heart_rate))+
+  geom_point()+
+  geom_smooth(color=&quot;blue&quot;,size=1, method = &quot;lm&quot;)+
+  xlab(&quot;maximum lunar intensity (lux)&quot;)+
+  ylab(&quot;maximum heart rate (bpm)&quot;)+
+  ggtitle(&quot;maximum heart rate is independent of maximum light intensity&quot;)</code></pre>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-14-1.png" /><!-- --></p>
+<pre class="r"><code>ggplot(height, aes(Treatment,change)) + 
+  geom_point(aes(colour=Treatment), size = 2) +
+  ylab(&quot;Change in height (mm)&quot;)+ggtitle(&quot;Change in height for different treatments&quot;)+
+  theme(axis.title.x = element_text(face=&quot;bold&quot;, size=20), 
+        axis.title.y = element_text(face=&quot;bold&quot;, size=20), 
+        axis.text.y  = element_text(size=14),
+        axis.text.x  = element_text(size=14), 
+        legend.text = element_text(size=16),
+        legend.title = element_text(size=18, face=&quot;bold&quot;),
+        plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=22))+
+  geom_hline(aes(yintercept = mean(change)), size = 1, color = &quot;red&quot;)</code></pre>
+<p><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-15-1.png" /><!-- --></p>
+<pre class="r"><code>library(ggplot2)
+ggplot(height, aes(Treatment,change)) + 
+  geom_boxplot(aes(colour=Treatment), size = 2) +
+  ylab(&quot;Change in height (mm)&quot;)+ggtitle(&quot;Change in height for different treatments&quot;)+
+  theme(axis.title.x = element_text(face=&quot;bold&quot;, size=20), 
+        axis.title.y = element_text(face=&quot;bold&quot;, size=20), 
+        axis.text.y  = element_text(size=14),
+        axis.text.x  = element_text(size=14), 
+        legend.text = element_text(size=16),
+        legend.title = element_text(size=18, face=&quot;bold&quot;),
+        plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=22))</code></pre>
+<p><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-16-1.png" /><!-- --></p>
+<pre class="r"><code>ggplot(height, aes(Treatment,change)) + 
+  geom_point(aes(colour=Gender), size = 2) +
+  ylab(&quot;Change in height (mm)&quot;)+ggtitle(&quot;Change in height for different treatments&quot;)+
+  theme(axis.title.x = element_text(face=&quot;bold&quot;, size=20), 
+        axis.title.y = element_text(face=&quot;bold&quot;, size=20), 
+        axis.text.y  = element_text(size=14),
+        axis.text.x  = element_text(size=14), 
+        legend.text = element_text(size=16),
+        legend.title = element_text(size=18, face=&quot;bold&quot;),
+        plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=22))+
+  geom_hline(aes(yintercept = mean(change)), size = 1, color = &quot;red&quot;)</code></pre>
+<p><img
+src="bio_stats_78002_midterm_fall2022_files/figure-html/unnamed-chunk-17-1.png" /><!-- --></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4,h5,h6",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
